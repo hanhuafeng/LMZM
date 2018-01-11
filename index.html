@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+	<meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <title></title>
+    
+    <link href="css/mui.min.css" rel="stylesheet" />
+    <link href="css/navbar.css" rel="stylesheet" />
+    <style>
+    	.bg{
+    		background: green;
+    	}
+    	.title{
+    		color: white;
+    		/*font-weight: bold;*/
+    	}
+		.mui-bar-tab .mui-tab-item.mui-active{
+			color: green; /* 这里放你想要的颜色 */
+		}
+    </style>
+</head>
+<body>
+	<header class="mui-bar mui-bar-nav bg">
+		<!--<a class="mui-icon mui-icon-bars mui-pull-left"></a>-->
+	    <h1 class="mui-title title">贵州林木种苗</h1>
+	</header>
+	
+	<nav class="mui-bar mui-bar-tab">
+		<a class="mui-tab-item mui-active" href="main.html">
+            <span class="mui-icon mui-icon-home"></span>
+            <span class="mui-tab-label">主页</span>
+   		</a>
+  		<a class="mui-tab-item" href="law.html">
+            <span class="mui-icon mui-icon-email"></span>
+            <span class="mui-tab-label">资料库</span>
+   		</a>
+  		<a class="mui-tab-item" href="industry.html">
+            <span class="mui-icon mui-icon-list"></span>
+            <span class="mui-tab-label">产业概况</span>
+  		</a>
+  		<a class="mui-tab-item" href="mine.html">
+            <span class="mui-icon mui-icon-person"></span>
+            <span class="mui-tab-label">我的</span>
+  		</a>
+	</nav>
+	
+	<script src="js/mui.min.js"></script>
+	
+	<script>
+		mui.init();
+		document.addEventListener('plusready',function(){
+	        plus.navigator.setStatusBarBackground("#000");
+	  	},false);
+        //底部导航栏
+		var Index = 0;
+		var subpages = ['main.html','law.html','industry.html','mine.html'];
+		mui.plusReady(function() {
+			plus.navigator.closeSplashscreen();
+			var self = plus.webview.currentWebview();
+			for(var i = 0; i < 4; i++) {
+				var sub = plus.webview.create(
+        			subpages[i], //子页url
+        			subpages[i], //子页id
+        			{
+            			top: '45px',//设置距离顶部的距离
+            			bottom: '50px'//设置距离底部的距离
+        			}
+    			);
+    			//如不是我们设置的默认的子页则隐藏，否则添加到窗口中
+    			if (i != Index) {
+        			sub.hide();
+    			}
+				//将webview对象填充到窗口
+	   			self.append(sub);
+			}
+		});
+		var activeTab = subpages[Index];
+		var title = document.querySelector(".mui-title");
+		mui('.mui-bar-tab').on('tap', 'a', function(e) {
+			//获取目标子页的id
+			var targetTab = this.getAttribute('href');
+			if (targetTab == activeTab) {
+    			return;
+			}
+			//更换标题
+			if (targetTab == 'main.html') {
+				title.innerHTML = '贵州林木种苗';
+			} else if (targetTab == 'mine.html') {
+				title.innerHTML = '个人中心';
+			} else {
+				title.innerHTML = this.querySelector('.mui-tab-label').innerHTML;
+			}
+			//显示目标选项卡
+			plus.webview.show(targetTab);
+			//隐藏当前选项卡
+			plus.webview.hide(activeTab);
+			//更改当前活跃的选项卡
+			activeTab = targetTab;
+		});
+	</script>
+</body>
+</html>

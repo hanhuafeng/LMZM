@@ -1,0 +1,89 @@
+.m-footer {
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	z-index: 10;
+	display: flex;
+	height: 50px;
+	width: 100%;
+	background: white;
+	padding-top: 2px;
+}
+
+.footer-item {
+	color: @navTxtGrayColor;
+}
+
+.item-content {
+	padding-top: 30px;
+	text-align: center;
+	font-size: 10px;
+	color: @navTxtGrayColor;
+	background-repeat: no-repeat;
+	background-size: 25px;
+	background-position: center 5px;
+}
+
+.icon-main {
+	background-image: url(class="mui-icon mui-icon-home");
+}
+
+.icon-law {
+	background-image: url(class="mui-icon mui-icon-email");
+}
+
+.icon-industry {
+	background-image: url(class="mui-icon mui-icon-list");
+}
+
+.icon-mine {
+	background-image: url(class="mui-icon mui-icon-person");
+}
+
+.icon-main-active {
+	background-image: url(class="mui-icon mui-icon-home");
+	color: @mainColor;
+}
+
+.icon-law-active {
+	background-image: url(class="mui-icon mui-icon-email");
+	color: @mainColor;
+}
+
+.icon-industry-active {
+	background-image: url(class="mui-icon mui-icon-list");
+	color: @mainColor;
+}
+
+.icon-mine-active {
+	background-image: url(class="mui-icon mui-icon-person");
+	color: @mainColor;
+}
+
+.footer-item :nth-of-type(3) {
+	position: relative;
+}
+
+.item-content1 {
+	padding-top: 0;
+	position: absolute;
+	left: 50%;
+	margin-left: -38px;
+	top: -18px;
+	width: 76px;
+	height: 76px;
+	border-radius: 50%;
+	background: #fff;
+}
+
+.icon-wrap {
+	width: 72px;
+	height: 72px;
+	border-radius: 50%;
+	background-repeat: no-repeat;
+	background-size: 100%;
+	background-position: center center;
+	background-color: #fff;
+	margin-left: auto;
+	margin-right: auto;
+}

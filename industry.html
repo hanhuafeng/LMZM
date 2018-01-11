@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<!--产业概况-->
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes"/>
+		<meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+		
+		<link href="css/mui.min.css" rel="stylesheet"/>
+		<link href="css/mui.picker.css" rel="stylesheet" />
+		<link href="css/mui.poppicker.css" rel="stylesheet" />
+		<style>
+			.year {
+				background: none;
+				font-size: 20px;
+			}
+			p {
+				text-indent: 28px;
+				font-size: 15px;
+			}
+			.ui-alert {
+				text-align: center;
+				padding: 20px 10px;
+				font-size: 16px;
+			}
+		</style>
+	</head>
+	
+	<body>
+		<div class="mui-content">
+			<ul class="mui-table-view" id="year">
+				<li class="mui-table-view-cell">
+                	<a class="mui-navigate-right">
+	                    <span class="mui-badge year" id="yearResult">2015</span>
+	                	年度选择
+	                </a>
+	            </li>
+			</ul>
+			
+			<div class="mui-content-padded" id="number">
+				<p class="mui-text-center" style="font-weight: bold; font-size: 15px; font-size: 20px;">贵州省2015年苗木花卉产业概况</p>
+				<p class="mui-text-justify" style="font-size: 18px; line-height: 30px;">2015年纳入统计的苗木花卉经营单位共
+					<font class="mui-text-center" color="green" data-page = "page1">374</font>家，其中：国有苗圃
+					<font class="mui-text-center" color="green" data-page = "page2">8</font>家，集体苗圃
+					<font class="mui-text-center" color="green" data-page = "page3">4</font>家，私营苗圃
+					<font class="mui-text-center" color="green" data-page = "page4">360</font>家；规模1000亩以上
+					<font class="mui-text-center" color="green" data-page = "page5">1</font>家，500-1000亩
+					<font class="mui-text-center" color="green" data-page = "page6">4</font>家，200-500亩有
+					<font class="mui-text-center" color="green" data-page = "page7">26</font>家，200亩以下
+					<font class="mui-text-center" color="green" data-page = "page8">343</font>家；
+					从业人员4276人，其中：管理人员783人，技术人员1722人；基地总面积3.99万亩；年产量12150.6万株，产值0.627亿元；
+					经果林苗木4534.6万株，产值0.341亿元；藤本126.8万株，产值0.007亿元；
+					灌木104.7万株，产值20.184亿元；竹类139.5万株，产值0.03亿元；草本232.7万株，产值0.007亿元；花卉1274.8万株，产值0.235亿元。
+				</p>
+			</div>
+		</div>
+		
+		<script src="js/mui.min.js"></script>
+		<script src="js/mui.picker.js"></script>
+		<script src="js/mui.poppicker.js"></script>
+		
+		<script>
+			//年度选择
+			var nowYear = new Date().getFullYear();
+			(function($, doc) {
+				$.init();
+				$.ready(function() {
+					var userPicker = new $.PopPicker();
+					var year = [];
+					for(var i = nowYear; i > nowYear - 10; i--) {
+						var item = {
+							value: i,
+							text: i
+						}
+						year.push(item);
+					}
+					userPicker.setData(year);
+					var years = doc.getElementById('year');
+					var result = doc.getElementById('yearResult');
+					years.addEventListener('tap', function(event) {
+						userPicker.show(function(items) {
+							result.innerText = items[0].value;
+							switch (result.innerText) {
+								case '2015':
+									document.getElementById('number').classList.remove('mui-hidden');
+									break;
+								default:
+									document.getElementById('number').classList.add('mui-hidden');
+									mui.toast('暂无数据');
+									break;
+							}
+							//返回 false 可以阻止选择框的关闭
+							//return false;
+						});
+					}, true);
+				});
+			})(mui, document);
+			
+			/*var subWebview = mui.preload({
+			    url: 'main-search.html'
+			});*/
+			
+			//数字链接
+			mui('#number').on('tap', '.mui-text-center', function() {
+				var page = this.dataset.page;
+				//企业列表
+				switch (page) {
+					case 'page1':
+						mui.openWindow({
+							id: 'industy-list.html',
+//							url: 'industy-list.html',
+							url: 'main-search.html',
+							extras:{
+								name: page
+							}
+						});
+						break
+					case 'page2':
+						mui.openWindow({
+							id: 'industy-list.html',
+//							url: 'industy-list.html',
+							url: 'main-search.html',
+							extras:{
+								name: page
+							}
+						});
+						break
+					case 'page3':
+						mui.openWindow({
+							id: 'industy-list.html',
+//							url: 'industy-list.html',
+							url: 'main-search.html',
+							extras:{
+								name: page
+							}
+						});
+						break
+					case 'page4':
+						mui.openWindow({
+							id: 'industy-list.html',
+//							url: 'industy-list.html',
+							url: 'main-search.html',
+							extras:{
+								name: page
+							}
+						});
+						break
+					case 'page5':
+						mui.openWindow({
+							id: 'industy-list.html',
+//							url: 'industy-list.html',
+							url: 'main-search.html',
+							extras:{
+								name: page
+							}
+						});
+						break
+					case 'page6':
+						mui.openWindow({
+							id: 'industy-list.html',
+//							url: 'industy-list.html',
+							url: 'main-search.html',
+							extras:{
+								name: page
+							}
+						});
+						break
+					case 'page7':
+						mui.openWindow({
+							id: 'industy-list.html',
+//							url: 'industy-list.html',
+							url: 'main-search.html',
+							extras:{
+								name: page
+							}
+						});
+						break
+					case 'page8':
+						mui.openWindow({
+							id: 'industy-list.html',
+//							url: 'industy-list.html',
+							url: 'main-search.html',
+							extras:{
+								name: page
+							}
+						});
+						break
+				}
+			});
+		</script>
+	</body>
+</html>

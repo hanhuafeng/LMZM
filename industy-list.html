@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<!--产业概况-企业列表-->
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes"/>
+		<meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+		
+		<link href="css/mui.min.css" rel="stylesheet"/>
+		<style>
+			.bg{
+    			background: green;
+	    	}
+	    	.title{
+	    		color: white;
+	    	}
+		</style>
+	</head>
+	
+	<body>
+		<header class="mui-bar mui-bar-nav bg">
+			<a class="mui-action-back mui-icon mui-icon-back mui-pull-left" style="color: white;"></a>
+		    <h1 class="mui-title title">企业列表</h1>
+		</header>
+		
+		<div class="mui-content">
+			<p class="mui-text-center">企业列表文本</p>
+		</div>
+		
+		<script src="js/mui.min.js"></script>
+		
+		<script>
+			mui.init();
+			mui.plusReady(function() {
+				var self = plus.webview.currentWebview();
+				var name = self.name;
+				var con = document.querySelector('.mui-text-center');
+				switch (name) {
+					case 'page1':
+						con.innerText = name;
+						break
+					case 'page2':
+						con.innerText = name;
+						break
+					case 'page3':
+						con.innerText = name;
+						break
+					case 'page4':
+						con.innerText = name;
+						break
+					case 'page5':
+						con.innerText = name;
+						break
+					case 'page6':
+						con.innerText = name;
+						break
+					case 'page7':
+						con.innerText = name;
+						break
+					case 'page8':
+						con.innerText = name;
+						break
+				}
+			});
+		</script>
+	</body>
+</html>

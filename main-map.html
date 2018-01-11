@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<!--主页-苗圃地图-->
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes"/>
+		<meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+		
+		<title></title>
+		<link href="css/mui.min.css" rel="stylesheet"/>
+	    <style>
+			html {
+				height:100%;
+			}
+	        body {
+	        	height:100%;
+	        	margin:0px;
+	        	padding:0px;
+        	}
+	        #allmap {
+	        	width: 100%;
+	        	height: 100%;
+	        	overflow: hidden;
+	        	margin:0;
+	        	font-family:"微软雅黑";
+        	}
+			.bg {
+    			background: green;
+	    	}
+	    	.title {
+	    		color: white;
+	    	}
+	    	.content {
+				margin-top: 8px;
+				margin-bottom: 6px;
+				text-align: center;
+			}
+			.input {
+				width: 80%;
+				padding: 10px 10px;
+				border: none;
+				border: 1px solid #CCCCCC;
+				border-radius: 5px;
+				font-size: 16px;
+				font-family: "微软雅黑";
+			}
+			.search {
+				padding:10px 12px;
+				background: green;
+				border-radius: 5px;
+				color: #FFFFFF;
+				font-size: 16px;
+				font-family: "微软雅黑";
+			}
+			.map {
+				z-index: -1000;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav bg">
+			<a class="mui-action-back mui-icon mui-icon-back mui-pull-left" style="color: white;"></a>
+	    	<h1 class="mui-title title">苗圃地图</h1>
+		</header>
+		
+		<!--<div class="mui-content">
+			<div class="mui-content content">
+				<input id="input" class="input" placeholder="请输入企业名称" />
+				<span id="btn" class="search">搜索</span>
+			</div>
+		</div>-->
+		<div id="allmap"></div>
+		
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=f2uM5WINef0sZI1NKg7Pr0G92HIwFAlN"></script>
+	    
+	    <script>
+			mui.init();
+			var map = new BMap.Map("allmap"); // 创建地图实例
+			var data = [{
+					"TITLE": "水城县润霖种养殖农民专业合作社",
+					"X": "105.0978660000",
+					"Y": "26.3951780000"
+				}, {
+					"TITLE": "关渡苗圃",
+					"X": "107.1284430000",
+					"Y": "26.8300610000"
+				}, {
+					"TITLE": "修文县六广镇六广苗圃场",
+					"X": "106.7267080000",
+					"Y": "26.7842560000"
+				}, {
+					"TITLE": "琳威种养殖农民专业合作社",
+					"X": "105.4773930000",
+					"Y": "26.2233720000"
+				}, {
+					"TITLE": "贵州省核桃研究所",
+					"X": "106.7467240000",
+					"Y": "26.5003910000"
+				}, {
+					"TITLE": "测试",
+					"X": "92°23′41″",
+					"Y": "39°20′37″"
+				}];
+			// 贵阳市都溪林场: 经度(西安80)：667184           纬度(西安80)：2952410
+			//39.3509959257,107.4065442919
+			//4356916,36447828
+			
+			/**
+			 * 显示坐标点
+			 */
+			for (var i = 0; i < data.length; i++) {
+				var point = new BMap.Point(data[i].X, data[i].Y);
+				map.centerAndZoom(point, 15);
+				var marker = new BMap.Marker(point); // 创建标注
+				var label = new BMap.Label(data[i].TITLE, {"offset":new BMap.Size(23, 5)});
+	            marker.setLabel(label);
+    	        map.addOverlay(marker); // 将标注添加到地图中
+    	        label.setStyle({
+	                borderColor: "#D90214",
+	                backgroundColor: "#D90214",
+	                color: "#fff",
+	                cursor: "pointer",
+	            });
+			}
+			
+			/**
+			 * 搜索
+			 */
+//			document.getElementById("btn").addEventListener('tap', function() {
+//				translatePoint(0);
+//				var inp = document.getElementById('input').value;
+//				for (var i = 0; i < data.length; i++) {
+//					if(data[i].TITLE == inp) {
+//						alert(inp);
+//						showSearch();
+//					} else {
+////						alert(inp);
+//					}
+//				}
+////				alert(inp);
+//			});
+			
+			function showSearch() {
+				var datas = [{
+					"TITLE": "标题",
+					"X": "117.230",
+					"Y": "31.810"
+				}];
+				for (var i = 0; i < datas.length; i++) {
+					var point = new BMap.Point(datas[i].X, datas[i].Y);
+					map.centerAndZoom(point, 15);
+					var marker = new BMap.Marker(point); // 创建标注
+					var label = new BMap.Label(datas[i].TITLE, {"offset": new BMap.Size(23, 5)});
+		            marker.setLabel(label);
+	    	        map.addOverlay(marker); // 将标注添加到地图中
+	    	        label.setStyle({
+		                borderColor: "#D90214",
+		                backgroundColor: "#D90214",
+		                color: "#fff",
+		                cursor: "pointer",
+		            });
+				}
+			}
+			
+			//当前位置  
+			function translatePoint(position) {
+			    var currentLon = position.coords.longitude;
+			    var currentLat= position.coords.latitude;
+			    var point = new BMap.Point(currentLon, currentLat);
+			    map.centerAndZoom(point, 15);
+			}
+		</script>
+	</body>
+</html>

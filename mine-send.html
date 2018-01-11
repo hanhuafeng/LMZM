@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<!--个人中心-数据上报-->
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes"/>
+		<meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		
+		<style>
+			.bg{
+    			background: green;
+	    	}
+	    	.title{
+	    		color: white;
+	    	}
+	    	.botton {
+	    		background: green;
+	    		color: white;
+	    		border-color: green;
+	    	}
+		</style>
+	</head>
+	
+	<body>
+		<header class="mui-bar mui-bar-nav bg">
+			<a class="mui-action-back mui-icon mui-icon-back mui-pull-left" style="color: white;"></a>
+		    <h1 class="mui-title title">数据上报</h1>
+		</header>
+		
+		<div class="mui-content">
+			<div class="mui-card"></div>
+			<form class="mui-input-group">
+				<div class="mui-input-row">
+					<label>市</label>
+					<input type="text" class="mui-input-clear" placeholder="市（州、新区）" id="city">
+				</div>
+				<div class="mui-input-row">
+					<label>县</label>
+					<input type="text" class="mui-input-clear" placeholder="县（市、区、特区）" id="county">
+				</div>
+				<div class="mui-input-row">
+					<label>苗圃</label>
+					<input type="text" class="mui-input-clear" placeholder="苗圃名称" id="name">
+				</div>
+				<div class="mui-input-row">
+					<label>树种</label>
+					<input type="text" class="mui-input-clear" placeholder="树种类型" id="type">
+				</div>
+				<div class="mui-input-row">
+					<label>可用苗合计</label>
+					<input type="text" class="mui-input-clear" placeholder="合计" id="total">
+				</div>
+				<div class="mui-input-row">
+					<label>容器数量</label>
+					<input type="text" class="mui-input-clear" placeholder="容器" id="vessel">
+				</div>
+				<div class="mui-input-row">
+					<label>良种数量</label>
+					<input type="text" class="mui-input-clear" placeholder="良种" id="seeds">
+				</div>
+
+				<div class="mui-button-row">
+					<button type="button" class="mui-btn botton" onclick="return false;" id="yes">上报</button>
+					&nbsp;&nbsp;&nbsp;&nbsp;
+					<button type="button" class="mui-btn mui-action-back" onclick="return false;" id="no">取消</button>
+				</div>
+			</form>
+		</div>
+		
+		<script src="js/mui.min.js"></script>
+		
+		<script>
+			mui.init();
+			document.getElementById("yes").addEventListener('tap', function() {
+				var city = document.getElementById('city').value;
+				var county = document.getElementById('county').value;
+				var name = document.getElementById('name').value;
+				var type = document.getElementById('type').value;
+				var total = document.getElementById('total').value;
+				var vessel = document.getElementById('vessel').value;
+				var seeds = document.getElementById('seeds').value;
+				
+				var inputValue = {
+					city: city,
+					county: county,
+					name: name,
+					type: type,
+					total: total,
+					vessel: vessel,
+					seeds: seeds
+				}
+				empty(inputValue);
+			});
+			document.getElementById("no").addEventListener("tap", function() {
+				mui.toast("取消");
+			});
+			/**
+			 * 输入框内容判断
+			 */
+			function empty(value) {
+				if (!value.city || value.city == '') {
+					mui.toast("市名不能为空");
+					return;
+				} else if(!value.county || value.county == '') {
+					mui.toast('县区不能为空')
+					return;
+				} else if(!value.name || value.name == ''){
+					mui.toast('苗圃名称不能为空')
+					return;
+				} else if(!value.type || value.type == ''){
+					mui.toast('树种类型不能为空')
+					return;
+				} else if(!value.total || value.total == ''){
+					mui.toast('合计值不能为空')
+					return;
+				} else if(!value.vessel || value.vessel == ''){
+					mui.toast('容器数量不能为空')
+					return;
+				} else if(!value.seeds || value.seeds == ''){
+					mui.toast('良种数量不能为空')
+					return;
+				} else {
+					var btnArray = ['是', '否'];
+					mui.confirm('是否再次编辑', '数据上报', btnArray, function(e) {
+						if (e.index == 0) {
+							dataSend(0);
+						} else {
+							dataSend(1);
+						}
+					});
+				}
+			}
+			/**
+			 * 数据上报
+			 */
+			function dataSend(i) {
+				//判断
+				if ('0') {
+					document.getElementById('city').value = '';
+					document.getElementById('county').value = '';
+					document.getElementById('name').value = '';
+					document.getElementById('type').value = '';
+					document.getElementById('total').value = '';
+					document.getElementById('vessel').value = '';
+					document.getElementById('seeds').value = '';
+					
+					mui.toast("上报");
+				} else {
+					mui.toast("上报");
+					mui.back();
+				}
+			}
+		</script>
+	</body>
+</html>

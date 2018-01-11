@@ -1,0 +1,25 @@
+.content {
+	margin: 0;
+	padding: 0;
+	margin-top: 20px;
+	background: #FFFFFF;
+	list-style: none;
+	
+}
+.item{
+	padding: 10px;
+	border-bottom: 1px
+	solid #CCCCCC;
+}
+.item div{
+	font-size: 18px;
+	padding-bottom: 8px;
+}
+.item:last-child{
+	border: none;
+}
+.time{
+	margin-left: 5px;
+	color: #999999;
+	font-size: 14px;
+}

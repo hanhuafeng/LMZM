@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<!--法律法规-条目详情-->
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes"/>
+		<meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		
+		<style>
+			.bg{
+    			background: green;
+	    	}
+	    	.title{
+	    		color: white;
+	    	}
+    	</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav bg">
+			<a class="mui-action-back mui-icon mui-icon-back mui-pull-left" style="color: white;"></a>
+		    <h1 class="mui-title title">法律法规详情</h1>
+		</header>
+		
+		<div class="mui-content">
+			<div class="mui-card"></div>
+			<p class="mui-text-center" style="font-weight: bold; font-size: 15px;" id="title"></p>
+			<p class="mui-text-justify" style="margin: 10px;" id="content"></p>
+		</div>
+		
+		<script src="js/mui.min.js"></script>
+		
+		<script>
+			mui.init();
+			mui.plusReady(function() {
+				var self = plus.webview.currentWebview();
+				var law = self.law;
+				document.getElementById('title').innerText = law.TNAME;
+				document.getElementById('content').innerHTML = law.CONTENT;
+			});
+		</script>
+	</body>
+</html>

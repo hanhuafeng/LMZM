@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<!--法律法规-->
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+		<title>用户协议</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/law.css" rel="stylesheet" />
+
+		<style>
+			.mui-table h4,
+			.mui-table h5,
+			.mui-table .mui-h5,
+			.mui-table .mui-h6,
+			.mui-table p {
+				margin-top: 0;
+			}
+			
+			.mui-table .oa-icon {
+				position: absolute;
+				right: 0;
+				bottom: 0;
+			}
+			
+			.mui-table .oa-icon-star-filled {
+				color: #f14e41;
+			}
+			
+			.sContent{
+				margin-top: 8px;
+				margin-bottom: 6px;
+				text-align: center;
+			}
+			.input{
+				width: 80%;
+				padding: 10px 10px;
+				border: none;
+				border: 1px solid #CCCCCC;
+				border-radius: 5px;
+				font-size: 16px;
+				font-family: "微软雅黑";
+			}
+			.search{
+				padding:10px 12px;
+				background: green;
+				border-radius: 5px;
+				color: #FFFFFF;
+				font-size: 16px;
+				font-family: "微软雅黑";
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="mui-content">
+			<div class="mui-content sContent">
+				<input class="input" placeholder="请输入搜索内容" id="ipSearch" />
+				<span class="search" id="btnSearch">搜索</span>
+				<span class="search" id="btnReturn">返回</span>
+			</div>
+			
+			<ul class="content" id="lawList" style="margin-top: 6px;">
+				<li v-for="item in items" class="mui-table-view-cell" v-on:click="hrefClass(item)">
+					<div class="mui-media-body">{{item.TNAME}}</div>
+					<p class="mui-ellipsis">{{item.LAWSTYPE}}</p>
+				</li>
+			</ul>
+			
+			<p class="sContent" id="point">资料库暂无数据</p>
+		</div>
+		
+		<script src="js/mui.min.js"></script>
+		<!--<script src="js/vue.min.js"></script>-->
+		<script src="js/vue.js"></script>
+		
+		<script>
+			mui.init();
+			document.getElementById('btnReturn').classList.add('mui-hidden');
+			document.getElementById('lawList').classList.add('mui-hidden');
+			document.getElementById('point').classList.add('mui-hidden');
+			
+			/**
+			 * 网络判断
+			 */
+			var network = true;
+			if(mui.os.plus) {
+				mui.plusReady(function() {
+					if(plus.networkinfo.getCurrentType() == plus.networkinfo.CONNECTION_NONE) {
+						network = false;
+					}
+				});
+			}
+			
+			var lawData = new Array();
+			var allData = new Array();
+			var lawList = new Array();
+			
+			/**
+			 * 获取数据
+			 */
+			var url = 'http://101.201.54.143:8049/WebService/WebServiceforzm.asmx/GetFLFGData';
+//			var url = 'http://222.85.147.145:8049/WebService/WebServiceforzm.asmx/GetFLFGData';
+			mui.ajax(url, {
+				data:{
+				  	ssnd: '',
+				  	type: '',
+				  	sjdqname: '中国',
+				  	dqname: '贵州省',
+				  	keyname: ''
+				},
+				dataType: 'json', //服务器返回json格式数据
+				type: 'post', //HTTP请求类型
+				timeout: 10000, //超时时间设置为10秒
+				success: function(data) {
+					if (data.KEY == '1') {
+						lawData = data;
+						allData = deepClone(data);
+						
+						/**
+						 * 数据加载
+						 */
+						lawList = new Vue({
+							el: '#lawList',
+							data: {
+								items: data.STATE
+							},
+							methods: {
+								hrefClass: function(item) {
+									mui.openWindow({
+										url: 'law-particulars.html',
+										extras:{
+											law: item
+										}
+									});
+								}
+							},
+						})
+						document.getElementById('lawList').classList.remove('mui-hidden');
+						document.getElementById('point').classList.add('mui-hidden');
+					} else {
+						document.getElementById('point').classList.remove('mui-hidden');
+					}
+				},
+				error:function(xhr, type, errorThrown) {
+					//异常处理；
+					mui.toast('连接服务器失败 ');
+				}
+			});
+			
+			/**
+			 * 搜索
+			 */
+			document.getElementById("btnSearch").addEventListener('tap', function() {
+				var inPut = document.getElementById('ipSearch').value;
+				if (!inPut || inPut == '') {
+					mui.toast('请输入搜索内容');
+				} else {
+					var search = new Array();
+					for (var i = 0; i < lawData.STATE.length; i++) {
+						if ((lawData.STATE[i].TNAME.indexOf(inPut)) != -1) {
+							search.push(lawData.STATE[i]);
+							document.getElementById('btnSearch').classList.add('mui-hidden');
+							document.getElementById('btnReturn').classList.remove('mui-hidden');
+						}
+					}
+					if (search.length > 0) {
+						lawList.items.splice(search.length);
+						for (var i = 0; i < search.length; i++) {
+							lawList.items.splice(i, 1, search[i])
+						}
+					} else {
+						mui.toast('未搜索到相关内容')
+					}
+				}
+			});
+			/**
+			 * 返回
+			 */
+			document.getElementById("btnReturn").addEventListener('tap', function() {
+				lawList.items.splice(allData.STATE.length);
+				document.getElementById('btnSearch').classList.remove('mui-hidden');
+				document.getElementById('btnReturn').classList.add('mui-hidden');
+				document.getElementById('ipSearch').value = '';
+				for (var i = 0; i < allData.STATE.length; i++) {
+					lawList.items.splice(i, 1, allData.STATE[i]);
+				}
+			});
+			
+			
+			
+			function deepClone(obj){
+			    var result;
+			    var oClass=isClass(obj);
+			    if(oClass==="Object"){
+			        result={};
+			    }else if(oClass==="Array"){
+			        result=[];
+			    }else{
+			        return obj;
+			    }
+			    for(var key in obj){
+			       var copy=obj[key];
+			       if(isClass(copy)=="Object"){
+			           result[key]=arguments.callee(copy);//递归调用
+			        }else if(isClass(copy)=="Array"){
+			           result[key]=arguments.callee(copy);
+			        }else{
+			            result[key]=obj[key];
+			        }
+			    }
+			 return result;
+			}
+			
+			//判断对象的数据类型
+			function isClass(o){
+			    if(o===null) return "Null";
+			    if(o===undefined) return "Undefined";
+			    return Object.prototype.toString.call(o).slice(8,-1);
+			}
+		</script>
+	</body>
+</html>

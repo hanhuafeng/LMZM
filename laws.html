@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<!--法律法规-->
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+		<title></title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/law.css" rel="stylesheet" />
+
+		<style>
+			.mui-table h4,
+			.mui-table h5,
+			.mui-table .mui-h5,
+			.mui-table .mui-h6,
+			.mui-table p {
+				margin-top: 0;
+			}
+			
+			.mui-table .oa-icon {
+				position: absolute;
+				right: 0;
+				bottom: 0;
+			}
+			
+			.mui-table .oa-icon-star-filled {
+				color: #f14e41;
+			}
+			
+			.sContent{
+				margin-top: 8px;
+				margin-bottom: 6px;
+				text-align: center;
+			}
+			.input{
+				width: 80%;
+				padding: 10px 10px;
+				border: none;
+				border: 1px solid #CCCCCC;
+				border-radius: 5px;
+				font-size: 16px;
+				font-family: "微软雅黑";
+			}
+			.search{
+				padding:10px 12px;
+				background: green;
+				border-radius: 5px;
+				color: #FFFFFF;
+				font-size: 16px;
+				font-family: "微软雅黑";
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="mui-content">
+			<div class="mui-content sContent">
+				<input class="input" placeholder="请输入搜索内容" id="ipSearch" />
+				<span class="search" id="btnSearch">搜索</span>
+				<span class="search" id="btnReturn">返回</span>
+			</div>
+			
+			<ul class="content" id="lawList" style="margin-top: 6px;">
+				<li v-for="item in items" class="mui-table-view-cell" v-on:click="hrefClass(item)">
+					<!--<div class="mui-media-body">{{item.TITLE}}</div>
+					<p class="mui-ellipsis">{{item.CONTENT}}</p>-->
+					<div class="mui-media-body">{{item.ID}}</div>
+					<p class="mui-ellipsis">{{item.SSND}}</p>
+				</li>
+			</ul>
+			
+			<div class="mui-button-row">
+				<button type="button" id="confirm" class="mui-btn mui-btn-primary">发送请求</button>
+			</div>
+			<h4 class="mui-content-padded">获得响应：</h4>
+			<code id="response"></code>
+		</div>
+		
+		<script src="js/mui.min.js"></script>
+		<!--<script src="js/vue.min.js"></script>-->
+		<script src="js/vue.js"></script>
+		
+		<script>
+			mui.init();
+			document.getElementById('btnReturn').classList.add('mui-hidden');
+			/**
+			 * 网络判断
+			 */
+			var network = true;
+			if(mui.os.plus) {
+				mui.plusReady(function() {
+					if(plus.networkinfo.getCurrentType() == plus.networkinfo.CONNECTION_NONE) {
+						network = false;
+					}
+				});
+			}
+
+			mui.post('http://101.201.54.143:8049/WebService/WebServiceforzm.asmx/GetFLFGData', {
+				ssnd: '',
+			  	type: '',
+			  	sjdqname: '中国',
+			  	dqname: '贵州省',
+			  	keyname: '',
+			}, function(data) {
+				var obj = eval(data);
+				//console.log(data.STATE[0].LAWSTYPE)
+				
+				var lawList = new Vue({
+					el: '#lawList',
+					data: {
+//							items: data
+						items: obj.STATE
+					},
+					methods: {
+						hrefClass: function(item) {
+							var pp = item.TITLE
+	//						alert(pp);
+							mui.openWindow({
+								url: 'law-particulars.html',
+								extras:{
+									name: pp
+								}
+							});
+						}
+					},
+				})
+				
+			}, 'json');
+
+			var respnoseEl = document.getElementById("response");
+			//发送请求按钮的点击事件
+			document.getElementById("confirm").addEventListener('tap', function() {
+				if(network) {
+					//respnoseEl.innerHTML = '正在请求中...';
+					getData();
+				} else {
+					mui.toast("当前网络不给力，请稍后再试");
+				}
+			});
+
+			/**
+			 * 获取数据
+			 */
+			function getData() {
+//				var data = '[{"TITLE":"标题1","CONTENT":"法律法规1"}, {"TITLE":"标题2","CONTENT":"法律法规2"}, {"TITLE":"标题3","CONTENT":"法律法规3"}, {"TITLE":"标题4","CONTENT":"法律法规4"},{"TITLE":"标题5","CONTENT":"法律法规5"},{"TITLE":"标题6","CONTENT":"法律法规6"}, {"TITLE":"标题7","CONTENT":"法律法规7"}, {"TITLE":"标题8","CONTENT":"法律法规8"}, {"TITLE":"标题9","CONTENT":"法律法规9"},{"TITLE":"标题10","CONTENT":"法律法规10"}]';
+//				var obj = eval(data);
+//				var obj = eval('(' + data + ')');
+				//toObject(data);
+				
+				mui.ajax('http://101.201.54.143:8049/WebService/WebServiceforzm.asmx/GetFLFGData',{
+					data:{
+					  	ssnd: '',
+					  	type: '',
+					  	sjdqname: '中国',
+					  	dqname: '贵州省',
+					  	keyname: ''
+					},
+					dataType: 'json',//服务器返回json格式数据
+					type: 'post',//HTTP请求类型
+					timeout: 10000,//超时时间设置为10秒；
+//					headers:{'text/html;charset=UTF-8'},
+//					headers: {'charset = UTF-8'},
+					success: function(data) {
+						//服务器返回响应，根据响应结果，分析是否登录成功；
+						mui.toast('测试');
+						alert(data.STATE[0].TNAME);
+						var response = JSON.stringify(data);
+						respnoseEl.innerHTML = 'response';
+					},
+					error:function(xhr, type, errorThrown) {
+						//异常处理；
+						mui.toast('错误');
+						console.log(xhr.readyState + '/' + type + '/' + errorThrown);
+					}
+				});
+			}
+
+//			/**
+//			 * 搜索
+//			 */
+//			document.getElementById("btnSearch").addEventListener('tap', function() {
+//				var inPut = document.getElementById('ipSearch').value;
+//				if (!inPut || inPut == '') {
+//					mui.toast('请输入搜索内容');
+//				} else {
+//					var search = new Array();
+//					for (var i = 0; i < data.length; i++) {
+//						if ((data[i].TITLE.indexOf(inPut)) != -1) {
+//							search.push(data[i]);
+//							document.getElementById('btnSearch').classList.add('mui-hidden');
+//							document.getElementById('btnReturn').classList.remove('mui-hidden');
+//						}
+//					}
+//					if (search.length > 0) {
+//						lawList.items.splice(search.length);
+//						data = [];
+//						for (var i = 0; i < search.length; i++) {
+//							lawList.items.splice(i, 1, search[i])
+//						}
+//					} else {
+//						mui.toast('未搜索到相关内容')
+//					}
+//				}
+//			});
+//			/**
+//			 * 返回
+//			 */
+//			document.getElementById("btnReturn").addEventListener('tap', function() {
+//				data = getData();
+//				lawList.items.splice(data.length);
+//				document.getElementById('btnSearch').classList.remove('mui-hidden');
+//				document.getElementById('btnReturn').classList.add('mui-hidden');
+//				document.getElementById('ipSearch').value = '';
+//				for (var i = 0; i < data.length; i++) {
+//					lawList.items.splice(i, 1, data[i]);
+//				}
+//			});
+		</script>
+	</body>
+</html>

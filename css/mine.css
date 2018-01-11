@@ -1,0 +1,124 @@
+/*
+ *个人中心标题栏 
+ */
+
+.bg {
+	background: #2AC845;
+}
+
+.title {
+	color: #FFFFFF;
+	font-size: 16px;
+	font-weight: bold;
+}
+
+
+/*
+ *头像，名字，背景 
+ */
+
+.userinfo-wrap {
+	height: 180px;
+	background: url(../img/1.jpg) no-repeat;
+	background-size: cover;
+	padding-top: 25px;
+}
+
+.userimg{
+	height: 100px;
+	width: 100px;
+	margin: 0 auto;
+	border: solid 3px #4CD964;
+	border-radius: 50%;
+	overflow: hidden;
+}
+
+.userimg img {
+	width: 95px;
+	height: 95px;
+	margin-top: -2px;
+	margin-left: -4px;
+}
+
+.userinfo-wrap h4,
+.userinfo-wrap h5 {
+	color: #fff;
+	text-align: center;
+	font-weight: normal;
+}
+
+.userinfo-wrap h4 {
+	margin: 8px;
+}
+
+
+/*
+ * 功能列表条目
+ */
+
+.menu-list {
+	margin: 0;
+	padding: 0;
+	margin-top: 15px;
+	list-style: none;
+}
+
+.menu-item {
+	height: 40px;
+	background: #FFFFFF;
+	line-height: 40px;
+	border-bottom: 1px solid #CCCCCC;
+}
+
+.menu-item:last-child {
+	border: none;
+}
+
+.menu-icon {
+	width: 24px;
+	height: 24px;
+	float: left;
+	margin-top: 8px;
+	margin-left: 15px;
+	border-radius: 8px;
+	background-size: 18px;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+.icon-gy {
+	background-color: #4CD964;
+	/*background-image: url(../img/1.jpg);*/
+}
+
+.icon-qg {
+	background-color: #F0AD4E;
+	background-image: url(../image/qiugou.png);
+}
+
+.icon-qyxx {
+	background-color: #8A6DE9;
+	background-image: url(../image/qyxinxi.png);
+}
+
+.icon-sjsb {
+	background-color: #50b7c1;
+	background-image: url(../image/sjshangbao.png);
+}
+
+.icon-llls {
+	background-color: #CCCCCC;
+	background-image: url(../image/lllishi.png);
+}
+
+.item {
+	margin-left: 15px;
+	font-size: 14px;
+}
+
+.mui-icon {
+	float: right;
+	margin-top: 7px;
+	margin-right: 10px;
+	color: #CCCCCC;
+}

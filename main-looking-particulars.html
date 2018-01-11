@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<!--主页-求购信息-种苗求购详细信息-->
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes"/>
+		<meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+		<link href="css/mui.min.css" rel="stylesheet"/>
+		
+		<style>
+			.bg{
+	    		background: green;
+	    	}
+	    	.title{
+    			color: white;
+    		}
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav bg">
+			<a class="mui-action-back mui-icon mui-icon-back mui-pull-left" style="color: white;"></a>
+	    	<h1 class="mui-title title">种苗求购详细信息</h1>
+		</header>
+		
+		<div class="mui-content">
+			<ul class="mui-table-view">
+				<!--<li class="mui-table-view-cell">
+                	<a class="mui-table-view-cell">
+                		苗圃名称 :
+	                    <span class="mui-table-view-cell">贵州金塔园林工程有限公司苗圃场</span>
+	                </a>
+	            </li>-->
+	            <li class="mui-table-view-cell">
+                	<a class="mui-table-view-cell">
+                		信息类型 :
+	                    <span class="mui-table-view-cell">求购</span>
+	                </a>
+	            </li>
+	            <li class="mui-table-view-cell">
+                	<a class="mui-table-view-cell">
+                		联&nbsp;&nbsp;系&nbsp;&nbsp;人 :
+	                    <span class="mui-table-view-cell" id="person"></span>
+	                </a>
+	            </li>
+	            <li class="mui-table-view-cell">
+                	<a class="mui-table-view-cell">
+                		联系电话 :
+	                    <span class="mui-table-view-cell" id="phone"/>
+	                </a>
+	            </li>
+	            <!--<li class="mui-table-view-cell">
+                	<a class="mui-table-view-cell">
+                		联系地址 :
+	                    <span class="mui-table-view-cell" id="address"/>
+	                </a>
+	            </li>-->
+	            <li class="mui-table-view-cell">
+                	<a class="mui-table-view-cell">
+                		数种名称 :
+	                    <span class="mui-table-view-cell" id="name"/>
+	                </a>
+	            </li>
+	            <li class="mui-table-view-cell">
+                	<a class="mui-table-view-cell">
+                		求购数量 :
+	                    <span class="mui-table-view-cell" id="num"/>
+	                </a>
+	            </li>
+			</ul>
+		</div>
+		
+		<script src="js/mui.min.js"></script>
+		
+		<script>
+			mui.init();
+			mui.plusReady(function() {
+				var self = plus.webview.currentWebview();
+				var content = self.content;
+				document.getElementById('person').innerText = content.CONTACT; //真实姓名
+				document.getElementById('phone').innerText = content.TEL; //联系电话
+				document.getElementById('name').innerText = content.ZNAMES; //数种名称
+				
+				if (content.LX == '3') {
+					document.getElementById('num').innerText = content.MJ; //求购数量
+				} else {
+					document.getElementById('num').innerText = content.M_NUMBER; //求购数量
+				}
+			});
+		</script>
+	</body>
+</html>

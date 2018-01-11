@@ -1,0 +1,127 @@
+{
+  "index.html": {
+    "resources": [
+      "main.html",
+      "law.html"
+    ],
+    "refer": [
+      "law.html",
+      "main.html",
+      "industry.html",
+      "mine.html",
+      "lawl.html",
+      "lawla.html"
+    ]
+  },
+  "main.html": {
+    "refer": [
+      "mine.html",
+      "supply.html",
+      "test.html",
+      "looking.html",
+      "map.html",
+      "search.html",
+      "main/looking.html",
+      "main-supply.html",
+      "main-search.html",
+      "main-looking.html",
+      "main-map.html",
+      "message.html",
+      "vue.html",
+      "baidu.html",
+      "zzz.html",
+      "laws.html",
+      "myLaw.html"
+    ],
+    "resources": []
+  },
+  "main-supply.html": {
+    "resources": [
+      "/img/hy1.jpg"
+    ],
+    "refer": [
+      "main-supply-particulars.html"
+    ]
+  },
+  "main-looking.html": {
+    "refer": [
+      "main-looking-particulars.html",
+      "main-search-particulars.html"
+    ],
+    "resources": []
+  },
+  "industry.html": {
+    "refer": [
+      "main-supply.html",
+      "industy-list.html",
+      "main-map.html",
+      "main-search.html"
+    ],
+    "resources": []
+  },
+  "main-search.html": {
+    "refer": [
+      "main-search-particulars.html",
+      "law-particulars.html",
+      "main-search-particular.html"
+    ],
+    "resources": []
+  },
+  "mine.html": {
+    "refer": [
+      "mine-send.html",
+      "mine-supply.html",
+      "mine-company.html",
+      "mine-looking.html",
+      "mine-mine.html",
+      "mine-login.html"
+    ],
+    "resources": []
+  },
+  "law.html": {
+    "refer": [
+      "main-supply-particulars.html",
+      "law-particulars.html",
+      "main-search-particular.html"
+    ],
+    "resources": []
+  },
+  "vue.html": {
+    "resources": [
+      "main.html"
+    ],
+    "refer": [
+      "main.html",
+      "mine.html"
+    ]
+  },
+  "mine-login.html": {
+    "refer": [
+      "mine-registered.html",
+      "mine-change.html"
+    ]
+  },
+  "mine-registered.html": {
+    "refer": [
+      "mine-mine.html",
+      "index.html"
+    ]
+  },
+  "mine-supply.html": {
+    "refer": [
+      "mine-supply.html"
+    ]
+  },
+  "main-search-particular.html": {
+    "refer": [
+      "main-search-particular-associate.html"
+    ]
+  },
+  "main-search-particular-associate.html": {
+    "refer": [
+      "main-supply.html",
+      "main-looking.html",
+      "main-search-particular-associate-detail.html"
+    ]
+  }
+}

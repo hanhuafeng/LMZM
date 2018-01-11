@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<!--个人中心-我的信息-->
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes"/>
+		<meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		
+		<style>
+			.bg{
+    			background: green;
+	    	}
+	    	.title{
+	    		color: white;
+	    	}
+	    	.botton {
+	    		background: green;
+	    		color: white;
+	    		border-color: green;
+	    	}
+	    	
+	    	.mui-input-group label {
+				width: 32%;
+			}
+			.mui-input-row label~input,
+			.mui-input-row label~select,
+			.mui-input-row label~textarea {
+				width: 68%;
+			}
+		</style>
+	</head>
+	
+	<body>
+		<header class="mui-bar mui-bar-nav bg">
+			<a class="mui-action-back mui-icon mui-icon-back mui-pull-left" style="color: white;"></a>
+		    <h1 class="mui-title title">我的信息</h1>
+		</header>
+		
+		<div class="mui-content">
+			<div class="mui-card"></div>
+			<form class="mui-input-group">
+				<div class="mui-input-row">
+					<label>用&nbsp;&nbsp;户&nbsp;&nbsp;名：</label>
+					<input type="text" readonly="readonly" placeholder="" id="username">
+				</div>
+				<div class="mui-input-row">
+					<label>真实姓名：</label>
+					<input type="text" readonly="readonly" placeholder="" id="realname">
+				</div>
+				<div class="mui-input-row">
+					<label>性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别：</label>
+                    <input type="text" readonly="readonly" placeholder="" id="sex">
+				</div>
+				<div class="mui-input-row">
+					<label>年&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;龄：</label>
+					<input type="text" readonly="readonly" placeholder="" id="age">
+				</div>
+				<div class="mui-input-row">
+					<label>联系电话：</label>
+					<input type="text" readonly="readonly" placeholder="" id="phone">
+				</div>
+				<div class="mui-input-row">
+					<label>邮&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;箱：</label>
+					<input type="text" readonly="readonly" placeholder="" id="email">
+				</div>
+			</form>
+			
+			<div class="mui-card"></div>
+			<form class="mui-input-group">
+				<div class="mui-input-row">
+					<label>当前版本：</label>
+					<input type="text" readonly="readonly" placeholder="" id="version">
+				</div>
+				<div class="mui-input-row">
+					<label>版本更新：</label>
+					<input type="text" readonly="readonly" placeholder="" id="updated">
+				</div>
+			</form>
+		</div>
+		
+		<script src="js/mui.min.js"></script>
+		
+		<script>
+			mui.init();
+			mui.plusReady(function() {
+				var self = plus.webview.currentWebview();
+				var content = self.content;
+				document.getElementById('username').value = content[0].USERCODE; //用户名
+				document.getElementById('realname').value = content[0].REALNAME; //真实姓名
+				
+				// 性别
+				var sex = content[0].USERSEX;
+				if (sex == '1') {
+					document.getElementById('sex').value = '男'
+				} else {
+					document.getElementById('sex').value = '女'
+				}
+				
+				document.getElementById('age').value = content[0].USEROLD; //年龄
+				document.getElementById('phone').value = content[0].MOBILEPHONENO; //联系电话
+				document.getElementById('email').value = content[0].USEREMAIL; //邮箱
+				
+				// 获取本地应用资源版本号
+				plus.runtime.getProperty(plus.runtime.appid, function(inf){
+		            document.getElementById('version').value = 'V ' + inf.version;
+		        });
+		        
+		        document.getElementById('updated').value = '已是最新版本'; //版本更新
+			});
+		</script>
+	</body>
+</html>

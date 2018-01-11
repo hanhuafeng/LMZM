@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<!--主页-求购信息-->
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes"/>
+		<meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+		
+		<title></title>
+		<link href="css/mui.min.css" rel="stylesheet"/>
+		<link href="css/law.css" rel="stylesheet" />
+		<style>
+	    	.bg {
+	    		background: green;
+	    	}
+	    	.title {
+    			color: white;
+    		}
+			.sContent {
+				margin-top: 8px;
+				margin-bottom: 6px;
+				text-align: center;
+			}
+			.input {
+				width: 80%;
+				padding: 10px 10px;
+				border: none;
+				border: 1px solid #CCCCCC;
+				border-radius: 5px;
+				font-size: 16px;
+				font-family: "微软雅黑";
+			}
+			.search {
+				padding:10px 12px;
+				background: green;
+				border-radius: 5px;
+				color: #FFFFFF;
+				font-size: 16px;
+				font-family: "微软雅黑";
+			}
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav bg">
+			<a class="mui-action-back mui-icon mui-icon-back mui-pull-left" style="color: white;"></a>
+		    <h1 class="mui-title title">求购信息</h1>
+		</header>
+		
+		<div class="mui-content">
+            <div class="mui-content sContent">
+				<input class="input" placeholder="请输入搜索的内容" id="ipSearch" />
+				<span class="search" id="btnSearch">搜索</span>
+				<span class="search" id="btnReturn">返回</span>
+			</div>
+			<ul class="content" id="lookingList" style="margin-top: 6px;">
+				<li v-for="item in items" class="mui-table-view-cell" v-on:click="hrefClass(item)">
+					<div class="mui-media-body">{{item.ZNAMES}}</div>
+					<p class="mui-ellipsis">求购数量：{{item.M_NUMBER}}</p>
+				</li>
+			</ul>
+		</div>
+		
+		<script src="js/mui.min.js"></script>
+		<script src="js/vue.js"></script>
+		
+		<script>
+			mui.init();
+			document.getElementById('btnReturn').classList.add('mui-hidden');
+			document.getElementById('lookingList').classList.add('mui-hidden');
+			/**
+			 * 网络判断
+			 */
+			var network = true;
+			if(mui.os.plus) {
+				mui.plusReady(function() {
+					if(plus.networkinfo.getCurrentType() == plus.networkinfo.CONNECTION_NONE) {
+						network = false;
+					}
+				});
+			}
+			
+			var lookData = new Array();
+			var allData = new Array();
+			var lookList = new Array();
+			
+			/**
+			 * 获取数据
+			 */
+			var url = 'http://101.201.54.143:8049/WebService/WebServiceforzm.asmx/GetDemandData';
+//			var url = 'http://222.85.147.145:8049/WebService/WebServiceforzm.asmx/GetDemandData';
+			mui.ajax(url, {
+				data: {},
+				dataType: 'json',
+				async: false,
+				type: 'post',
+				timeout: '10000',
+				success: function(data) {
+					if (data.KEY == '1') {
+						lookData = data;
+						allData = deepClone(data);
+						
+						/**
+						 * 数据加载
+						 */
+						lookList = new Vue({
+							el: '#lookingList',
+							data: {
+								items: data.STATE
+							},
+							methods: {
+								hrefClass: function(item) {
+									mui.openWindow({
+										url: 'main-looking-particulars.html',
+										extras:{
+											content: item
+										}
+									});
+								}
+							},
+						})
+						document.getElementById('lookingList').classList.remove('mui-hidden');
+					} else {
+						mui.toast('没有数据')
+					}
+				},
+				error:function(xhr, type, errorThrown) {
+					//异常处理；
+					mui.toast('网络请求超时');
+				}
+			})
+			
+			/**
+			 * 搜索
+			 */
+			document.getElementById("btnSearch").addEventListener('tap', function() {
+				alert(lookData.STATE[3].ZNAMES);
+				var inPut = document.getElementById('ipSearch').value;
+				if (!inPut || inPut == '') {
+					mui.toast('请输入搜索内容');
+				} else {
+					alert(inPut);
+					var search = new Array();
+					for (var i = 0; i < lookData.STATE.length; i++) {
+						if ((lookData.STATE[i].ZNAMES.indexOf(inPut)) != -1) {
+							search.push(lookData.STATE[i]);
+							document.getElementById('btnSearch').classList.add('mui-hidden');
+							document.getElementById('btnReturn').classList.remove('mui-hidden');
+						}
+					}
+					if (search.length > 0) {
+						lookList.items.splice(search.length);
+						for (var i = 0; i < search.length; i++) {
+							lookList.items.splice(i, 1, search[i])
+						}
+					} else {
+						mui.toast('未搜索到相关内容')
+					}
+				}
+			});
+			/**
+			 * 返回
+			 */
+			document.getElementById("btnReturn").addEventListener('tap', function() {
+				lookList.items.splice(allData.STATE.length);
+				document.getElementById('btnSearch').classList.remove('mui-hidden');
+				document.getElementById('btnReturn').classList.add('mui-hidden');
+				document.getElementById('ipSearch').value = '';
+				for (var i = 0; i < allData.STATE.length; i++) {
+					lookList.items.splice(i, 1, allData.STATE[i]);
+				}
+			});
+			
+			
+			
+			function deepClone(obj){
+			    var result;
+			    var oClass=isClass(obj);
+			    if(oClass==="Object"){
+			        result={};
+			    }else if(oClass==="Array"){
+			        result=[];
+			    }else{
+			        return obj;
+			    }
+			    for(var key in obj){
+			       var copy=obj[key];
+			       if(isClass(copy)=="Object"){
+			           result[key]=arguments.callee(copy);//递归调用
+			        }else if(isClass(copy)=="Array"){
+			           result[key]=arguments.callee(copy);
+			        }else{
+			            result[key]=obj[key];
+			        }
+			    }
+			 return result;
+			}
+			
+			//判断对象的数据类型
+			function isClass(o){
+			    if(o===null) return "Null";
+			    if(o===undefined) return "Undefined";
+			    return Object.prototype.toString.call(o).slice(8,-1);
+			}
+		</script>
+	</body>
+</html>

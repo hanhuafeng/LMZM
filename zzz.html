@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes"/>
+		<meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+		<link href="css/mui.min.css" rel="stylesheet"/>
+	    <style>
+			html {
+				height:100%;
+			}
+	        body {
+	        	height:100%;
+	        	margin:0px;
+	        	padding:0px;
+        	}
+	        #allmap {
+	        	width: 100%;
+	        	height: 100%;
+	        	overflow: hidden;
+	        	margin:0;
+	        	font-family:"微软雅黑";
+        	}
+			.bg {
+    			background: green;
+	    	}
+	    	.title {
+	    		color: white;
+	    	}
+	    	.content {
+				margin-top: 8px;
+				margin-bottom: 6px;
+				text-align: center;
+			}
+			.input {
+				width: 80%;
+				padding: 10px 10px;
+				border: none;
+				border: 1px solid #CCCCCC;
+				border-radius: 5px;
+				font-size: 16px;
+				font-family: "微软雅黑";
+			}
+			.search {
+				padding:10px 12px;
+				background: green;
+				border-radius: 5px;
+				color: #FFFFFF;
+				font-size: 16px;
+				font-family: "微软雅黑";
+			}
+			.map {
+				z-index: -1000;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="mui-content">
+			<div class="mui-content content">
+				<input id="input" class="input" placeholder="请输入企业名称" />
+				<span id="btn" class="search">搜索</span>
+			</div>
+			
+			<div class="mui-button-row">
+				<button type="button" id="confirm" class="mui-btn mui-btn-primary">发送请求</button>
+			</div>
+			<h4 class="mui-content-padded">获得响应：</h4>
+			<code id="response"></code>
+		</div>
+		<div id="allmap"></div>
+		
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=f2uM5WINef0sZI1NKg7Pr0G92HIwFAlN"></script>
+	    
+	    <script>
+			mui.init();
+			var network = true;
+			if(mui.os.plus){
+				mui.plusReady(function () {
+					if(plus.networkinfo.getCurrentType()==plus.networkinfo.CONNECTION_NONE){
+						network = false;
+					}
+				});
+			}
+			/*var map = new BMap.Map("allmap"); // 创建地图实例
+			var point = new BMap.Point(117.240, 31.800);
+			map.centerAndZoom(point, 15);
+			var marker = new BMap.Marker(point); // 创建标注
+			var label = new BMap.Label('测试', {"offset":new BMap.Size(23, 5)});
+            marker.setLabel(label);
+	        map.addOverlay(marker); // 将标注添加到地图中
+	        label.setStyle({
+                borderColor: "#D90214",
+                backgroundColor: "#D90214",
+                color: "#fff",
+                cursor: "pointer",
+            });*/
+           
+           	var respnoseEl = document.getElementById("response");
+			//发送请求按钮的点击事件
+			document.getElementById("confirm").addEventListener('tap', function() {
+				if(network) {
+					//respnoseEl.innerHTML = '正在请求中...';
+					getData();
+					mui.toast('点击 ')
+				} else {
+					mui.toast("当前网络不给力，请稍后再试");
+				}
+			});
+
+			/**
+			 * 获取数据
+			 */
+			function getData() {
+//				var data = '[{"TITLE":"标题1","CONTENT":"法律法规1"}, {"TITLE":"标题2","CONTENT":"法律法规2"}, {"TITLE":"标题3","CONTENT":"法律法规3"}, {"TITLE":"标题4","CONTENT":"法律法规4"},{"TITLE":"标题5","CONTENT":"法律法规5"},{"TITLE":"标题6","CONTENT":"法律法规6"}, {"TITLE":"标题7","CONTENT":"法律法规7"}, {"TITLE":"标题8","CONTENT":"法律法规8"}, {"TITLE":"标题9","CONTENT":"法律法规9"},{"TITLE":"标题10","CONTENT":"法律法规10"}]';
+//				var obj = eval(data);
+//				var obj = eval('(' + data + ')');
+				//toObject(data);
+				
+//				http://101.201.54.143:5830/WebService.asmx/GetJcData
+				/*mui.ajax('http://101.201.54.143:8049/WebService/WebServiceforzm.asmx/GetFLFGData',{
+					data:{
+					  	ssnd: '',
+					  	type: '',
+					  	sjdqname: '中国',
+					  	dqname: '贵州省',
+					  	keyname: ''
+					},
+					dataType: 'json',//服务器返回json格式数据
+					type: 'post',//HTTP请求类型
+					timeout: 10000,//超时时间设置为10秒；
+					headers: {'Content-Type':'application/json'},
+					success: function(data) {
+						//服务器返回响应，根据响应结果，分析是否登录成功；
+						mui.toast('测试');
+						alert(data);
+						var response = JSON.stringify(data);
+						respnoseEl.innerHTML = 'response';
+					},
+					error:function(xhr, type, errorThrown) {
+						//异常处理；
+						console.log(type);
+					}
+				});*/
+				
+				mui.ajax('http://101.201.54.143:5830/WebService.asmx/GetJcData',{
+					data:{
+					  	
+					},
+					dataType: 'jsonp',//服务器返回json格式数据
+					type: 'post',//HTTP请求类型
+					timeout: 10000,//超时时间设置为10秒；
+					headers: {'Content-Type':'application/json'},
+					success: function(data) {
+						//服务器返回响应，根据响应结果，分析是否登录成功；
+						mui.toast('测试');
+						alert(data);
+						var response = JSON.stringify(data);
+						respnoseEl.innerHTML = 'response';
+					},
+					error:function(xhr, type, errorThrown) {
+						//异常处理；
+						console.log(type);
+					}
+				});
+				
+//				mui.post('http://101.201.54.143:5830/WebService.asmx/GetJcData', {
+//					/*ssnd: '',
+//				  	type: '',
+//				  	sjdqname: '中国',
+//				  	dqname: '贵州省',
+//				  	keyname: ''*/
+//				}, function(data) {
+//					respnoseEl.innerHTML = data;
+//					alert(data);
+//				}, 'jsonp');
+//				return data;
+			}
+		</script>
+	</body>
+</html>

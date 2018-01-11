@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<!--个人中心-用户登录-->
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes"/>
+		<meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/mui.picker.css" rel="stylesheet" />
+		<link href="css/mui.poppicker.css" rel="stylesheet" />
+		
+		<style>
+			.bg{
+    			background: green;
+	    	}
+	    	.title{
+	    		color: white;
+	    	}
+	    	.botton {
+	    		background: green;
+	    		color: white;
+	    		border-color: green;
+	    	}
+	    	
+	    	.ui-page-login,
+			body {
+				width: 100%;
+				height: 100%;
+				margin: 0px;
+				padding: 0px;
+			}
+			.mui-content{height: 100%;}
+			.area {
+				margin: 20px auto 0px auto;
+			}
+			
+			.mui-input-group {
+				margin-top: 10px;
+			}
+			
+			.mui-input-group:first-child {
+				margin-top: 20px;
+			}
+			
+			.mui-input-group label {
+				width: 30%;
+			}
+			
+			.mui-input-row label~input,
+			.mui-input-row label~select,
+			.mui-input-row label~textarea {
+				width: 70%;
+			}
+			
+			.mui-checkbox input[type=checkbox],
+			.mui-radio input[type=radio] {
+				top: 6px;
+			}
+			
+			.mui-content-padded {
+				margin-top: 25px;
+			}
+			
+			.mui-btn-login {
+				padding: 10px;
+				color: white;
+				background: green;
+				border: green;
+			}
+			
+			.link-area {
+				display: block;
+				margin-top: 25px;
+				text-align: center;
+			}
+			
+			.spliter {
+				color: #bbb;
+				padding: 0px 8px;
+			}
+			
+			.oauth-area {
+				position: absolute;
+				bottom: 20px;
+				left: 0px;
+				text-align: center;
+				width: 100%;
+				padding: 0px;
+				margin: 0px;
+			}
+			
+			.oauth-area .oauth-btn {
+				display: inline-block;
+				width: 50px;
+				height: 50px;
+				background-size: 30px 30px;
+				background-position: center center;
+				background-repeat: no-repeat;
+				margin: 0px 20px;
+				/*-webkit-filter: grayscale(100%); */
+				border: solid 1px #ddd;
+				border-radius: 25px;
+			}
+			
+			.oauth-area .oauth-btn:active {
+				border: solid 1px #aaa;
+			}
+			
+			.oauth-area .oauth-btn.disabled {
+				background-color: #ddd;
+			}
+			
+			.radio_inline{
+                display: inline-block;
+                width: 65%;
+            }
+            .radio_inline label{
+                width: 20%;
+                padding-left: 40px;
+                padding-right: 40px;
+            }
+            .radio_inline input[type=radio]{
+                width: 15%;
+                right: auto;
+            }
+            .mui-radio input[type='radio']:checked:before {
+				/*content: '\e442';*/
+				color: green;
+			}
+			
+			.mui-poppicker-btn-ok {
+				background: green;
+				border: darkgreen;
+			}
+		</style>
+	</head>
+	
+	<body>
+		<header class="mui-bar mui-bar-nav bg">
+			<a class="mui-action-back mui-icon mui-icon-back mui-pull-left" style="color: white;"></a>
+		    <h1 class="mui-title title">用户登录</h1>
+		</header>
+		
+		<div class="mui-content">
+			<div class="mui-card"></div>
+			<!--登录-->
+			<form id='login-form' class="mui-input-group">
+				<div class="mui-input-row">
+					<label>账&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号</label>
+					<input id='account' type="text" class="mui-input-clear mui-input" placeholder="请输入账号">
+				</div>
+				<div class="mui-input-row">
+					<label>密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码</label>
+					<input id='password' type="password" class="mui-input-clear mui-input" placeholder="请输入密码">
+				</div>
+				
+				<div class="mui-input-row" id="type">
+					<label>用户类型</label>
+					<input type="text" class="mui-input-clear" readonly="readonly" placeholder="请选择用户类型" id="typeResult">
+				</div>
+			</form>
+			<!--<form class="mui-input-group">
+				<ul class="mui-table-view mui-table-view-chevron">
+					<li class="mui-table-view-cell">
+						自动登录
+						<div id="autoLogin" class="mui-switch">
+							<div class="mui-switch-handle"></div>
+						</div>
+					</li>
+				</ul>
+			</form>-->
+			<div id="btn" class="mui-content-padded">
+				<button id='login' class="mui-btn-login mui-btn-block">登录</button>
+				<div class="link-area"><a id='reg' style="color: green;">注册账号</a> <span class="spliter">|</span> <a id='changePassword' style="color: green;">修改密码</a>
+				<!--<div class="link-area"><a id='reg' style="color: green;">注册账号</a>-->
+				</div>
+			</div>
+			
+			<!--注册-->
+			<form id="reg-form" class="mui-input-group">
+				<div class="mui-input-row">
+					<label>用&nbsp;&nbsp;户&nbsp;&nbsp;名</label>
+					<input type="text" class="mui-input-clear" placeholder="请输入用户名（必填）" id="userName">
+				</div>
+				<div class="mui-input-row">
+					<label>密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码</label>
+					<input type="password" class="mui-input-clear" placeholder="请输入密码（必填）" id="passWord">
+				</div>
+				<div class="mui-input-row">
+					<label>确认密码</label>
+					<input type="password" class="mui-input-clear" placeholder="请确认密码（必填）" id="checkPass">
+				</div>
+				<div class="mui-input-row">
+					<label>真实姓名</label>
+					<input type="text" class="mui-input-clear" placeholder="请输入真实姓名（必填）" id="realName">
+				</div>
+				<div class="mui-input-row">
+					<label>性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别</label>
+                    <span class="radio_inline mui-radio">
+                        <input name="radio1" type="radio" id="radio_man" checked value="1">
+                        <label for="radio_man">男</label>
+                        <input name="radio1" type="radio" id="radio_woman" value="0">
+                        <label for="radio_woman">女</label>
+                    </span> 
+				</div>
+				<div class="mui-input-row">
+					<label>年&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;龄</label>
+					<input type="text" class="mui-input-clear" placeholder="请输入年龄" id="age">
+				</div>
+				<div class="mui-input-row">
+					<label>联系电话</label>
+					<input type="text" class="mui-input-clear" placeholder="请输入联系电话" id="phone">
+				</div>
+				<div class="mui-input-row">
+					<label>邮&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;箱</label>
+					<input type="text" class="mui-input-clear" placeholder="请输入电子邮箱账号" id="email">
+				</div>
+
+				<div class="mui-button-row">
+					<button type="button" class="mui-btn botton" onclick="return false;" id="yes">注册</button>
+					&nbsp;&nbsp;&nbsp;&nbsp;
+					<button type="button" class="mui-btn" onclick="return false;" id="no">取消</button>
+				</div>
+			</form>
+			
+			<!--修改密码-->
+			<form id="change" class="mui-input-group">
+				<div class="mui-input-row">
+					<label>用&nbsp;&nbsp;户&nbsp;&nbsp;名</label>
+					<input type="text" readonly="readonly" placeholder="" id="user">
+				</div>
+				<div class="mui-input-row">
+					<label>原始密码</label>
+					<input type="password" class="mui-input-clear" placeholder="请输入原始密码（必填）" id="old">
+				</div>
+				<div class="mui-input-row">
+					<label>新&nbsp;&nbsp;密&nbsp;&nbsp;码</label>
+					<input type="password" class="mui-input-clear" placeholder="请输入新密码（必填）" id="new">
+				</div>
+				<div class="mui-input-row">
+					<label>确认密码</label>
+					<input type="password" class="mui-input-clear" placeholder="请确认密码（必填）" id="checkNew">
+				</div>
+				<div class="mui-input-row">
+					<label>确认修改</label>
+					<input type="text" readonly="readonly" placeholder="请点击按钮确认是否修改" id="sure">
+				</div>
+				
+				<div class="mui-button-row">
+					<button type="button" class="mui-btn botton" onclick="return false;" id="changeY">修改</button>
+					&nbsp;&nbsp;&nbsp;&nbsp;
+					<button type="button" class="mui-btn" onclick="return false;" id="changeN">取消</button>
+				</div>
+			</form>
+		</div>
+		
+		<script src="js/mui.min.js"></script>
+		<script src="js/mui.picker.js"></script>
+		<script src="js/mui.poppicker.js"></script>
+		
+		<script>
+			mui.init({
+			    beforeback: function() {
+			　　　　 //获得父页面的webview
+			        var last = plus.webview.currentWebview().opener();
+			　　　　 //触发父页面的自定义事件(refresh),从而进行刷新
+			        mui.fire(last, 'refresh');
+			        //返回true,继续页面关闭逻辑
+			        return true;
+			    }
+			});
+			
+			document.getElementById('reg-form').classList.add('mui-hidden');
+			document.getElementById('change').classList.add('mui-hidden');
+			(function($, doc) {
+				$.init();
+				$.ready(function() {
+					var userPicker = new $.PopPicker();
+					userPicker.setData([{
+						value: 'ordinary',
+						text: '普通用户'
+					}, {
+						value: 'nursery',
+						text: '苗圃基地用户'
+					}]);
+					var type = doc.getElementById('type');
+					var typeResult = doc.getElementById('typeResult');
+					type.addEventListener('tap', function(event) {
+						userPicker.show(function(items) {
+							typeResult.value = items[0].text;
+						});
+					}, false);
+				});
+			})(mui, document);
+			
+			/**
+			 * 登录
+			 */
+			document.getElementById('login').addEventListener('tap', function(event) {
+				var account = document.getElementById('account').value;
+				var psd = document.getElementById('password').value;
+				var type = document.getElementById('typeResult').value;
+				
+				var t = 1;
+				if (type == '普通用户') {
+					t = 1;
+				} else {
+					t = 0;
+				}
+				
+				if (account == '') {
+					mui.toast('账号不能为空');
+					return
+				} else if (psd == '') {
+					mui.toast('密码不能为空');
+					return
+				}
+				var url = 'http://101.201.54.143:8049/WebService/WebServiceforzm.asmx/Login';
+//				var url = 'http://222.85.147.145:8049/WebService/WebServiceforzm.asmx/Login';
+				mui.ajax(url, {
+					data:{
+						type: t, // 1：普通用户   0：苗圃基地用户
+					    usercode: account,
+					    userpsd: psd,
+					},
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒
+//					headers: {'Content-Type':'application/json'},
+					success: function(data) {
+						if (data.KEY == '1') {
+							mui.toast("登录成功");
+							
+							localStorage.removeItem("USERNAME");
+                			localStorage.removeItem("PASSWORD");
+                			localStorage.removeItem("USERTYPE");
+                			
+                			localStorage.setItem("USERNAME", account);
+ 					        localStorage.setItem("PASSWORD", psd);
+ 					        localStorage.setItem('USERTYPE', t);
+ 					        
+							mui.back();
+						} else {
+							mui.toast("登录失败");
+						}
+					},
+					error:function(xhr, type, errorThrown) {
+						//异常处理；
+						mui.toast('服务器连接失败');
+//						console.log(xhr.readyState + '/' + type + '/' + errorThrown);
+					}
+				});
+			});
+			
+			/**
+			 * 注册账号
+			 */
+			document.getElementById('reg').addEventListener('tap', function(event) {
+				document.getElementById('login-form').classList.add('mui-hidden');
+				document.getElementById('btn').classList.add('mui-hidden');
+				document.getElementById('reg-form').classList.remove('mui-hidden');
+			});
+			
+			/**
+			 * 注册
+			 */
+			document.getElementById('yes').addEventListener('tap', function(event) {
+				var userName = document.getElementById('userName').value;
+				var passWord = document.getElementById('passWord').value;
+				var checkPass = document.getElementById('checkPass').value;
+				var realName = document.getElementById('realName').value;
+				var man = document.getElementById('radio_man');
+				var age = document.getElementById('age').value;
+				var phone = document.getElementById('phone').value;
+				var email = document.getElementById('email').value;
+				var sex = 1;
+				
+				if (man.checked) {
+					sex = 1;
+				} else {
+					sex = 0;
+				}
+				
+				var inputValue = {
+					userName: userName,
+					passWord: passWord,
+					checkPass: checkPass,
+					realName: realName,
+					sex: sex,
+					age: age,
+					phone: phone,
+					email: email
+				}
+				
+				empty(inputValue);
+			});
+			/**
+			 * 输入框内容判断
+			 */
+			function empty(value) {
+				if (!value.userName || value.userName == '') {
+					mui.toast("请输入用户名");
+					return;
+				} else if(!value.passWord || value.passWord == '') {
+					mui.toast('请输入密码')
+					return;
+				} else if(!value.checkPass || value.checkPass == '') {
+					mui.toast('请确认密码')
+					return;
+				} else if (value.checkPass != value.passWord) {
+					mui.toast('密码输入不一致')
+					return;
+				} else if(!value.realName || value.realName == '') {
+					mui.toast('请输入真实姓名')
+					return;
+				} else {
+					dataSend(value);
+				}
+			}
+			/**
+			 * 数据上报
+			 */
+			function dataSend(value) {
+				var url = 'http://101.201.54.143:8049/WebService/WebServiceforzm.asmx/RegisteredUser';
+//				var url = 'http://222.85.147.145:8049/WebService/WebServiceforzm.asmx/RegisteredUser';
+				mui.ajax(url, {
+					data:{
+					    usercode: value.userName,
+					    realname: value.realName,
+					    psd: value.passWord,
+					    email: value.email,
+					    sex: value.sex,
+					    age: value.age,
+					    phone: '',
+					    mobile: value.phone,
+					    bz: ''
+					},
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒
+					success: function(data) {
+						if (data.KEY == '1') {
+							mui.toast("注册成功");
+							
+							localStorage.removeItem("USERNAME");
+			                localStorage.removeItem("PASSWORD");
+			                localStorage.removeItem("USERTYPE");
+                			
+			                localStorage.setItem("USERNAME", value.userName);
+			                localStorage.setItem("PASSWORD", value.passWord);
+			                localStorage.setItem('USERTYPE', 1);
+							
+							mui.back();
+						} else {
+							mui.toast("注册失败");
+						}
+					},
+					error:function(xhr, type, errorThrown) {
+						//异常处理；
+						mui.toast('服务器连接失败');
+					}
+				});
+			}
+			
+			/**
+			 * 取消注册
+			 */
+			document.getElementById('no').addEventListener('tap', function(event) {
+				document.getElementById('login-form').classList.remove('mui-hidden');
+				document.getElementById('btn').classList.remove('mui-hidden');
+				document.getElementById('reg-form').classList.add('mui-hidden');
+			});
+			
+			/**
+			 * 修改密码
+			 */
+			document.getElementById('changePassword').addEventListener('tap', function(event) {
+				var user = localStorage.getItem('USERNAME');
+				document.getElementById('user').value = user;
+				document.getElementById('sure').value = '请点击按钮确认是否修改';
+				
+				document.getElementById('login-form').classList.add('mui-hidden');
+				document.getElementById('btn').classList.add('mui-hidden');
+				document.getElementById('change').classList.remove('mui-hidden');
+			});
+			/**
+			 * 确认修改
+			 */
+			document.getElementById('changeY').addEventListener('tap', function(event) {
+				var user = document.getElementById('user').value;
+				var old = document.getElementById('old').value;
+				var newPass = document.getElementById('new').value;
+				var checkNew = document.getElementById('checkNew').value;
+				
+				var changeValue = {
+					user: user,
+					old: old,
+					newPass: newPass,
+					checkNew: checkNew,
+				}
+				
+				if(!changeValue.old || changeValue.old == '') {
+					mui.toast('请输入原始密码')
+					return;
+				} else if(!changeValue.newPass || changeValue.newPass == '') {
+					mui.toast('请输入新密码')
+					return;
+				} else if(!changeValue.checkNew || changeValue.checkNew == '') {
+					mui.toast('请确认新密码')
+					return;
+				} else if (changeValue.newPass != changeValue.checkNew) {
+					mui.toast('密码输入不一致')
+					return;
+				} else {
+					change(changeValue);
+				}
+			});
+			/**
+			 * 发送数据
+			 */
+			function change(changeValue) {
+				var url = 'http://101.201.54.143:8049/WebService/WebServiceforzm.asmx/EditPassWord';
+//				var url = 'http://222.85.147.145:8049/WebService/WebServiceforzm.asmx/EditPassWord';
+				mui.ajax(url, {
+					data:{
+      					usercode: changeValue.user,
+      					psd_old: changeValue.old,
+      					psd_new: changeValue.newPass
+					},
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒
+					success: function(data) {
+						if (data.KEY == '1') {
+							mui.toast("修改成功");
+							
+							localStorage.removeItem("USERNAME");
+			                localStorage.removeItem("PASSWORD");
+			                
+			                localStorage.setItem("USERNAME", changeValue.user);
+			                localStorage.setItem("PASSWORD", changeValue.newPass);
+							
+							mui.back();
+						} else {
+							mui.toast("修改失败");
+						}
+					},
+					error:function(xhr, type, errorThrown) {
+						//异常处理；
+						mui.toast('服务器连接失败');
+					}
+				});
+			}
+			/**
+			 * 取消修改
+			 */
+			document.getElementById('changeN').addEventListener('tap', function(event) {
+				document.getElementById('login-form').classList.remove('mui-hidden');
+				document.getElementById('btn').classList.remove('mui-hidden');
+				document.getElementById('change').classList.add('mui-hidden');
+				
+				document.getElementById('old').value = '';
+				document.getElementById('new').value = '';
+				document.getElementById('checkNew').value = '';
+			});
+		</script>
+	</body>
+</html>

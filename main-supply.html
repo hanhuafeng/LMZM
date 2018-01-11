@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<!--主页-供应信息-->
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes"/>
+		<meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+		<link href="css/mui.min.css" rel="stylesheet"/>
+		<link href="css/law.css" rel="stylesheet" />
+	    <style>
+	    	.bg {
+	    		background: green;
+	    	}
+	    	.title {
+    			color: white;
+    		}
+			.sContent {
+				margin-top: 8px;
+				margin-bottom: 6px;
+				text-align: center;
+			}
+			.input {
+				width: 80%;
+				padding: 10px 10px;
+				border: none;
+				border: 1px solid #CCCCCC;
+				border-radius: 5px;
+				font-size: 16px;
+				font-family: "微软雅黑";
+			}
+			.search {
+				padding:10px 12px;
+				background: green;
+				border-radius: 5px;
+				color: #FFFFFF;
+				font-size: 16px;
+				font-family: "微软雅黑";
+			}
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav bg">
+			<a class="mui-action-back mui-icon mui-icon-back mui-pull-left" style="color: white;"></a>
+	    	<h1 class="mui-title title">供应信息</h1>
+		</header>
+		
+		<div class="mui-content">
+            <div class="mui-content sContent">
+				<input class="input" placeholder="请输入搜索的内容" />
+				<span class="search">搜索</span>
+			</div>
+			<ul class="content" id="supplyList" style="margin-top: 6px;">
+				<li v-for="item in items" class="mui-table-view-cell" v-on:click="hrefClass(item)">
+					<div class="mui-media-body">{{item.ZNAMES}}</div>
+					<p class="mui-ellipsis">供应数量：{{item.M_NUMBER}}</p>
+					<p class="mui-ellipsis">苗圃名称：{{item.MPNAME}}</p>
+				</li>
+			</ul>
+		</div>
+		
+		<script src="js/mui.min.js"></script>
+		<script src="js/vue.js"></script>
+		
+		<script>
+			mui.init();
+			document.getElementById('supplyList').classList.add('mui-hidden');
+			/**
+			 * 网络判断
+			 */
+			var network = true;
+			if(mui.os.plus) {
+				mui.plusReady(function() {
+					if(plus.networkinfo.getCurrentType() == plus.networkinfo.CONNECTION_NONE) {
+						network = false;
+					}
+				});
+			}
+
+			/**
+			 * 获取数据
+			 */
+			var url = 'http://101.201.54.143:8049/WebService/WebServiceforzm.asmx/GetSupplyData';
+//			var url = 'http://222.85.147.145:8049/WebService/WebServiceforzm.asmx/GetSupplyData';
+			mui.ajax(url, {
+				data: {},
+				dataType: 'json',
+				async: false,
+				type: 'post',
+				timeout: '10000',
+				success: function(data) {
+					if (data.KEY == '1') {
+						/**
+						 * 数据加载
+						 */
+						var lawList = new Vue({
+							el: '#supplyList',
+							data: {
+								items: data.STATE
+							},
+							methods: {
+								hrefClass: function(item) {
+									mui.openWindow({
+										url: 'main-supply-particulars.html',
+										extras:{
+											content: item
+										}
+									});
+								}
+							},
+						})
+						document.getElementById('supplyList').classList.remove('mui-hidden');
+					} else {
+						mui.toast('没有数据')
+					}
+				},
+				error:function(xhr, type, errorThrown) {
+					//异常处理；
+					mui.toast('网络请求超时');
+				}
+			})
+		</script>
+	</body>
+</html>

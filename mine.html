@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<!--个人中心-->
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes"/>
+		<meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/mine.css" rel="stylesheet" />
+	</head>
+	<body>
+		<div class="mui-content ">
+			<div class="userinfo-wrap">
+				<div class="userinfo">
+					<div class="userimg">
+						<img id="pic" />
+					</div>
+					<h4 class="username" id="name"></h4>
+				</div>
+			</div>
+
+			<ul class="menu-list" id="list">
+				<li class="menu-item" id="mine">
+					<div class="menu-icon icon-qyxx"></div>
+					<span class="item">我的信息</span>
+					<span class="mui-icon mui-icon-forward" data-page = "page3"></span>
+				</li>
+				<li class="menu-item" id="supply">
+					<div class="menu-icon icon-gy"></div>
+					<span class="item">我的供应</span>
+					<span class="mui-icon mui-icon-forward" data-page = "page1"></span>
+				</li>
+				<li class="menu-item" id="looking">
+					<div class="menu-icon icon-qg"></div>
+					<span class="item">我的求购</span>
+					<span class="mui-icon mui-icon-forward" data-page = "page2"></span>
+				</li>
+				<li class="menu-item" id="send">
+					<div class="menu-icon icon-sjsb"></div>
+					<span class="item">数据上报</span>
+					<span class="mui-icon mui-icon-forward" data-page = "page4"></span>
+				</li>
+				<!--<li class="menu-item">
+					<div class="menu-icon icon-llls"></div>
+					<span class="item">浏览历史</span>
+					<span class="mui-icon mui-icon-forward" data-page = "page5"></span>
+				</li>-->
+			</ul>
+
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script>
+			mui.init();
+			var user = localStorage.getItem('USERNAME');
+			var pass = localStorage.getItem('PASSWORD');
+			var type = localStorage.getItem('USERTYPE');
+			
+			if (user == null || pass == null) {
+				document.getElementById('name').innerText = '请点击登录 ';
+				document.getElementById('pic').src = 'img/wh.jpg';
+			} else {
+				var login = {userType: type, userName: user, passWord: pass};
+				getData(login);
+				document.getElementById('pic').src = 'img/tree.jpg';
+			}
+			document.getElementById('mine').classList.add('mui-hidden');
+			document.getElementById('supply').classList.add('mui-hidden');
+			document.getElementById('looking').classList.add('mui-hidden');
+			document.getElementById('send').classList.add('mui-hidden');
+			
+			var content = '';
+			
+			(function($, doc) {
+				$.init();
+				$.ready(function() {
+					//var mine = doc.getElementById('mine');//我的信息
+					var supply = doc.getElementById('supply');//我的供应
+					var looking = doc.getElementById('looking');//我的求购
+					var send = doc.getElementById('send');//数据上报
+					
+					mine.addEventListener('tap', function(event) {
+						mui.openWindow({
+							url: 'mine-mine.html',
+							extras:{
+								content: content
+							}
+						});
+					}, false);
+					
+					supply.addEventListener('tap', function(event) {
+						mui.openWindow({
+							url: 'mine-supply.html',
+							extras:{
+								content: content
+							}
+						});
+					}, false);
+					
+					looking.addEventListener('tap', function(event) {
+						mui.openWindow({
+							url: 'mine-looking.html',
+							extras:{
+								content: content
+							}
+						});
+					}, false);
+					
+					send.addEventListener('tap', function(event) {
+						mui.openWindow({
+							url: 'mine-send.html'
+						});
+					}, false);
+				});
+			})(mui, document);
+			
+			/**
+			 * 跳转登录页面
+			 */
+			document.getElementById('pic').addEventListener('tap', function(event) {
+				mui.openWindow({
+					url: 'mine-login.html' // 登录
+				});
+			})
+			
+			/**
+			 * 自动登录
+			 */
+			function getData(login) {
+				var url = 'http://101.201.54.143:8049/WebService/WebServiceforzm.asmx/Login';
+//				var url = 'http://222.85.147.145:8049/WebService/WebServiceforzm.asmx/Login';
+				mui.ajax(url, {
+					data:{
+						type: login.userType,
+					    usercode: login.userName,
+					    userpsd: login.passWord,
+					},
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒
+					success: function(data) {
+						//var obj = JSON.stringify(data.STATE);
+						content = data.STATE;
+						
+						document.getElementById('name').innerText = data.STATE[0].USERCODE;
+						document.getElementById('mine').classList.remove('mui-hidden');
+						if (login.userType == '1') {
+							document.getElementById('supply').classList.add('mui-hidden');
+						} else {
+							document.getElementById('supply').classList.remove('mui-hidden');
+						}
+						document.getElementById('looking').classList.remove('mui-hidden');
+						document.getElementById('send').classList.remove('mui-hidden');
+					},
+					error:function(xhr, type, errorThrown) {
+						//异常处理；
+						mui.toast('服务器连接失败');
+					}
+				});
+			}
+			
+			//执行刷新
+			window.addEventListener('refresh', function(e) {
+			    var user = localStorage.getItem('USERNAME');
+				var pass = localStorage.getItem('PASSWORD');
+				var type = localStorage.getItem('USERTYPE');
+				
+				if (user == null || pass == null) {
+					document.getElementById('name').innerText = '请点击登录 ';
+					document.getElementById('pic').src = 'img/wh.jpg';
+				} else {
+					var login = {userType: type, userName: user, passWord: pass};
+					getData(login);
+					document.getElementById('pic').src = 'img/tree.jpg';
+				}
+			});
+		</script>
+	</body>
+</html>

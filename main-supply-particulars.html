@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<!--主页-供应信息-种苗供应详细信息-->
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes"/>
+		<meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+		<link href="css/mui.min.css" rel="stylesheet"/>
+		
+		<style>
+			.bg{
+	    		background: green;
+	    	}
+	    	.title{
+    			color: white;
+    		}
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav bg">
+			<a class="mui-action-back mui-icon mui-icon-back mui-pull-left" style="color: white;"></a>
+	    	<h1 class="mui-title title">种苗供应详细信息</h1>
+		</header>
+		
+		<div class="mui-content">
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell">
+                	<a class="mui-table-view-cell">
+                		苗圃名称 :
+	                    <span class="mui-table-view-cell" id="name"></span>
+	                </a>
+	            </li>
+	            <li class="mui-table-view-cell">
+                	<a class="mui-table-view-cell">
+                		信息类型 :
+	                    <span class="mui-table-view-cell" id="type">供应</span>
+	                </a>
+	            </li>
+	            <!--<li class="mui-table-view-cell">
+                	<a class="mui-table-view-cell">
+                		所在区域 :
+	                    <span class="mui-table-view-cell" id="area"></span>
+	                </a>
+	            </li>-->
+	            <li class="mui-table-view-cell">
+                	<a class="mui-table-view-cell">
+                		联&nbsp;&nbsp;系&nbsp;&nbsp;人 :
+	                    <span class="mui-table-view-cell" id="person"></span>
+	                </a>
+	            </li>
+	            <li class="mui-table-view-cell">
+                	<a class="mui-table-view-cell">
+                		联系电话 :
+	                    <span class="mui-table-view-cell" id="phone"></span>
+	                </a>
+	            </li>
+	            <li class="mui-table-view-cell">
+                	<a class="mui-table-view-cell">
+                		联系地址 :
+	                    <span class="mui-table-view-cell" id="address"></span>
+	                </a>
+	            </li>
+	            <li class="mui-table-view-cell">
+                	<a class="mui-table-view-cell">
+                		种苗类型 :
+	                    <span class="mui-table-view-cell" id="treeType"></span>
+	                </a>
+	            </li>
+	            <li class="mui-table-view-cell">
+                	<a class="mui-table-view-cell">
+                		树种名称 :
+	                    <span class="mui-table-view-cell" id="treeName"></span>
+	                </a>
+	            </li>
+	            <li class="mui-table-view-cell mui-collapse">
+	            	<a class="mui-navigate-right" href="#">规格</a>
+            		<ul class="mui-table-view">
+						<li class="mui-table-view-cell" id="more1">
+		                	<a class="mui-table-view-cell">
+		                		苗高 :
+			                    <span class="mui-table-view-cell" id="high"></span>
+			                </a>
+			            </li>
+			            <li class="mui-table-view-cell" id="more2">
+		                	<a class="mui-table-view-cell">
+		                		胸径 :
+			                    <span class="mui-table-view-cell" id="diameter"></span>
+			                </a>
+			            </li>
+			            <li class="mui-table-view-cell">
+		                	<a class="mui-table-view-cell">
+		                		数量 :
+			                    <span class="mui-table-view-cell" id="num"></span>
+			                </a>
+			            </li>
+			            <li class="mui-table-view-cell">
+		                	<a class="mui-table-view-cell">
+		                		价格 :
+			                    <span class="mui-table-view-cell" id="price"></span>
+			                </a>
+			            </li>
+		            </ul>
+	            </li>
+			</ul>
+		</div>
+		
+		<script src="js/mui.min.js"></script>
+		
+		<script>
+			mui.init();
+			mui.plusReady(function() {
+				var self = plus.webview.currentWebview();
+				var content = self.content;
+				
+				document.getElementById('name').innerText = content.MPNAME; //苗圃名称
+//				document.getElementById('area').innerText = content.; //所在区域
+				document.getElementById('person').innerText = content.CONTACT; //联系人
+				document.getElementById('phone').innerText = content.TEL; //联系电话
+				document.getElementById('address').innerText = content.ADDRESS; //联系地址
+				document.getElementById('treeName').innerText = content.ZNAMES; //树种名称
+				
+				if (content.LX == '1') {
+					document.getElementById('treeType').innerText = '苗木'; //种苗类型
+					
+					document.getElementById('more1').classList.remove('mui-hidden');
+					document.getElementById('more2').classList.remove('mui-hidden');
+					
+					document.getElementById('high').innerText = content.TREEHEIGHT; //苗高
+					document.getElementById('diameter').innerText = content.DIAMETER; //胸径
+					document.getElementById('num').innerText = content.M_NUMBER; //数量
+					//价格
+					if (content.MMPRICE == null) {
+						document.getElementById('price').innerText = '面议';
+					} else {
+						document.getElementById('price').innerText = content.MMPRICE;
+					}
+				} else if (content.LX == '2') {
+					document.getElementById('treeType').innerText = '花卉'; //种苗类型
+					
+					document.getElementById('more1').classList.add('mui-hidden');
+					document.getElementById('more2').classList.add('mui-hidden');
+					
+					document.getElementById('num').innerText = content.M_NUMBER; //数量
+					//价格
+					if (content.MMPRICE == null) {
+						document.getElementById('price').innerText = '面议';
+					} else {
+						document.getElementById('price').innerText = content.MMPRICE;
+					}
+				} else {
+					document.getElementById('treeType').innerText = '草坪'; //种苗类型
+					
+					document.getElementById('more1').classList.add('mui-hidden');
+					document.getElementById('more2').classList.add('mui-hidden');
+					
+					document.getElementById('num').innerText = content.MJ; //数量
+					//价格
+					if (content.MMPRICE == null) {
+						document.getElementById('price').innerText = '面议';
+					} else {
+						document.getElementById('price').innerText = content.MMPRICE;
+					}
+				}
+			});
+		</script>
+	</body>
+</html>

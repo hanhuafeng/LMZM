@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<!--主页-苗圃查询-苗圃信息-数据关联-->
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes"/>
+		<meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		
+		<style>
+	    	.bg{
+	    		background: green;
+	    	}
+	    	.title{
+    			color: white;
+    		}
+    		
+    		.mui-input-group label {
+				width: 30%;
+			}
+			
+			.mui-input-row label~input,
+			.mui-input-row label~select,
+			.mui-input-row label~textarea,
+			.mui-input-row label~a {
+				width: 70%;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav bg">
+			<a class="mui-action-back mui-icon mui-icon-back mui-pull-left" style="color: white;"></a>
+	    	<h1 class="mui-title title">关联信息</h1>
+		</header>
+		
+		<div class="mui-content">
+			<!--<form id="reg-form" class="mui-input-group">
+				<div class="mui-input-row">
+					<label>邮&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;箱</label>
+					<input type="text" class="mui-input-clear mui-ellipsis-2" placeholder="请输入电子邮箱账号" id="email">
+				</div>
+			</form>-->
+			<ul id="list" class="mui-table-view mui-table-view-striped mui-table-view-condensed">
+		        <li class="mui-table-view-cell">
+		            <div class="mui-table" data-page = "page1">
+		                <div class="mui-table-cell mui-col-xs-10">
+		                    <h5 class="mui-ellipsis" style="font-size: 18px; color: black;">桃树</h5>
+		                    <h5>苗圃：小黑林场</h5>
+		                    <h5>小计：100</h5>
+		                </div>
+		                <div class="mui-table-cell mui-col-xs-2 mui-text-right">
+		                    <span class="mui-h5">12:25</span>
+		                </div>
+		            </div>
+		        </li>
+		        <li class="mui-table-view-cell">
+		            <div class="mui-table" data-page = "page2">
+		                <div class="mui-table-cell mui-col-xs-10">
+		                    <h5 class="mui-ellipsis" style="font-size: 18px; color: black;">桃树</h5>
+		                    <h5>苗圃：小黑林场</h5>
+		                    <h5>小计：100</h5>
+		                </div>
+		                <div class="mui-table-cell mui-col-xs-2 mui-text-right">
+		                    <span class="mui-h5">12:25</span>
+		                </div>
+		            </div>
+		        </li>
+		        <li class="mui-table-view-cell">
+		            <div class="mui-table" data-page = "page3">
+		                <div class="mui-table-cell mui-col-xs-10">
+		                    <h5 class="mui-ellipsis" style="font-size: 18px; color: black;">桃树</h5>
+		                    <h5>苗圃：小黑林场</h5>
+		                    <h5>小计：100</h5>
+		                </div>
+		                <div class="mui-table-cell mui-col-xs-2 mui-text-right">
+		                    <span class="mui-h5">12:25</span>
+		                </div>
+		            </div>
+		        </li>
+		    </ul>
+		</div>
+		
+		<script src="js/mui.min.js"></script>
+		
+		<script>
+			mui.init();
+			mui('#list').on('tap', '.mui-table-view-cell', function() {
+				mui.openWindow({
+					url: 'main-search-particular-associate-detail.html'
+				})
+			});
+		</script>
+	</body>
+</html>

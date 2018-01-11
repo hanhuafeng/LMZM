@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<!--主页-苗圃查询-企业信息-->
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes"/>
+		<meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		
+		<style>
+			html {
+				height:100%;
+			}
+	        body {
+	        	height:100%;
+	        	margin:0px;
+	        	padding:0px;
+        	}
+	        #map {
+	        	width: 100%;
+	        	height: 100%;
+	        	overflow: hidden;
+	        	margin-top: 120px;
+	        	font-family:"微软雅黑";
+        	}
+	    	.bg{
+	    		background: green;
+	    	}
+	    	.title{
+    			color: white;
+    		}
+			.mui-content .mui-slider .mui-control-item.mui-active{
+				color: green;
+			}
+			.mui-content .mui-slider .mui-slider-progress-bar{
+				background: green;
+			}
+			.mui-control-content {
+				background-color: white;
+				min-height: calc(100vh - 80px);
+			}
+			.mui-control-content .mui-loading {
+				margin-top: 50px;
+			}
+		</style>
+	</head>
+	
+	<body>
+		<header class="mui-bar mui-bar-nav bg">
+			<a class="mui-action-back mui-icon mui-icon-back mui-pull-left" style="color: white;"></a>
+	    	<h1 class="mui-title title">企业信息</h1>
+		</header>
+		
+		<div class="mui-content">
+			<div id="slider" class="mui-slider">
+				<div id="sliderSegmentedControl" class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
+					<a class="mui-control-item mui-active" href="#introduction">基地简介</a>
+					<a class="mui-control-item" href="#information">苗木信息</a>
+					<a class="mui-control-item" href="#contact">联系方式</a>
+				</div>
+				<div id="sliderProgressBar" class="mui-slider-progress-bar mui-col-xs-4"></div>
+				<div class="mui-slider-group">
+					<div id="introduction" class="mui-slider-item mui-control-content mui-active">
+						<div class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<div class="mui-card">
+									<div id="introductionPic" class="mui-card-header mui-card-media" style="height:50vw; background-image: url(img/u1.jpg);"></div>
+								</div>
+								<p id="introductionCon" class="mui-text-justify mui-card-content-inner">
+									<!--2015年纳入统计的苗木花卉经营单位共374家，其中：国有苗圃8家，集体苗圃4家，
+									私营苗圃360家；规模1000亩以上1家，500-1000亩4家，200-500亩有26家，200亩以下343家；从业人员4276人，
+									其中：管理人员783人，技术人员1722人；
+									基地总面积3.99万亩；年产量12150.6万株，产值0.627亿元；经果林苗木4534.6万株，产值0.341亿元；
+									藤本126.8万株，产值0.007亿元；灌木104.7万株，产值20.184亿元；竹类139.5万株，产值0.03亿元；
+									草本232.7万株，产值0.007亿元；花卉1274.8万株，产值0.235亿元。-->
+								</p>
+							</div>
+						</div>
+					</div>
+					<div id="information" class="mui-slider-item mui-control-content">
+						<div class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<div class="mui-loading">
+									<div class="mui-spinner">
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div id="contact" class="mui-slider-item mui-control-content">
+						<div class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<div class="mui-loading">
+									<div class="mui-spinner">
+									</div>
+								</div>
+							</div>
+							<div id="map"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=f2uM5WINef0sZI1NKg7Pr0G92HIwFAlN"></script>
+		
+		<script>
+			mui.init();
+			mui.plusReady(function() {
+				var self = plus.webview.currentWebview();
+				var content = self.content;
+				// {"ID":1021.0,
+				// "NAME":"贵州省核桃研究所",
+				// "DESCRIBE":null,
+				// "AEERESS":"南明区",
+				// "DDCODE":"520102000000",
+				// "MPLXR":"杨春华",
+				// "PHONE":"13985429651",
+				// "DQNAME":"南明区",
+				// "DDPARENT":"520100000000"}
+//				var pic = self.pic;
+				if (name == undefined) {
+					setData();
+				} else {
+					setData();
+					document.getElementById('introductionCon').innerText = content.NAME;
+//					document.getElementById('introductionPic').style.backgroundImage = pic
+				}
+				function setData() {
+					(function($) {
+						$('.mui-scroll-wrapper').scroll({
+							indicators: true //是否显示滚动条
+						});
+						var html2 = '<ul class="mui-table-view"><li class="mui-table-view-cell">第二个选项卡子项-1</li><li class="mui-table-view-cell">第二个选项卡子项-2</li><li class="mui-table-view-cell">第二个选项卡子项-3</li><li class="mui-table-view-cell">第二个选项卡子项-4</li><li class="mui-table-view-cell">第二个选项卡子项-5</li></ul>';
+						var html3 = '<ul class="mui-table-view">' + 
+							'<li class="mui-table-view-cell">' + 
+			                	'<a class="mui-table-view-cell">基地名称 :<span id="name" class="mui-table-view-cell">' + 
+			                	name//'贵州金塔园林工程有限公司苗圃场'
+			                	+ '</span></a>' +
+				            '</li>' + 
+				            '<li class="mui-table-view-cell">' + 
+			                	'<a class="mui-table-view-cell">联&nbsp;&nbsp;系&nbsp;&nbsp;人 :<span class="mui-table-view-cell">' + 
+			                	'唐代放'
+			                	+ '</span></a>' +
+				            '</li>' + 
+				            '<li class="mui-table-view-cell">' + 
+			                	'<a class="mui-table-view-cell">联系电话 :<span class="mui-table-view-cell">' + 
+			                	'12312341234'
+			                	+ '</span></a>' +
+				            '</li>' + 
+				            '<li class="mui-table-view-cell">' + 
+			                	'<a class="mui-table-view-cell">基地地址 :<span class="mui-table-view-cell">' + 
+			                	'白云区牛场乡皇冠村'
+			                	+ '</span></a>' +
+				            '</li>' + 
+				            '<li class="mui-table-view-cell">' + 
+			                	'<a class="mui-table-view-cell">所在区域 :<span class="mui-table-view-cell">' + 
+			                	'白云区'
+			                	+ '</span></a>' +
+				            '</li>' + 
+				            '<li class="mui-table-view-cell">' + 
+			                	'<a class="mui-table-view-cell">邮&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;编 :<span class="mui-table-view-cell">' + 
+			                	'550014'
+			                	+ '</span></a>' +
+				            '</li>' + 
+						'</ul>';
+						
+						showOnMap(name);
+						var item2 = document.getElementById('information');
+						var item3 = document.getElementById('contact');
+						document.getElementById('slider').addEventListener('slide', function(e) {
+							if (e.detail.slideNumber === 1) {
+								item2.querySelector('.mui-scroll').innerHTML = html2;
+							} else if (e.detail.slideNumber === 2) {
+								item3.querySelector('.mui-scroll').innerHTML = html3;
+							}
+						});
+						var sliderSegmentedControl = document.getElementById('sliderSegmentedControl');
+						$('.mui-input-group').on('change', 'input', function() {
+							if (this.checked) {
+								sliderSegmentedControl.className = 'mui-slider-indicator mui-segmented-control mui-segmented-control-inverted mui-segmented-control-' + this.value;
+								//force repaint
+								sliderProgressBar.setAttribute('style', sliderProgressBar.getAttribute('style'));
+							}
+						});
+					})(mui);
+				}
+			});
+			
+			/**
+			 * 在地图上显示位置
+			 */
+			function showOnMap(name) {
+				var map = new BMap.Map("map");
+				var point = new BMap.Point(117.240, 31.800);
+				map.centerAndZoom(point, 15);
+				var marker = new BMap.Marker(point); // 创建标注
+	//			var icon = new BMap.Icon("img/location.jpg", {"imageOffset":new BMap.Size(23, 25)});
+				var label = new BMap.Label(name, {"offset":new BMap.Size(5, -25)});
+	//			marker.setIcon(icon);
+	            marker.setLabel(label);
+		        map.addOverlay(marker); // 将标注添加到地图中
+		        label.setStyle({
+	                borderColor: "#D90214",
+	                backgroundColor: "#D90214",
+	                color: "#fff",
+	                cursor: "pointer",
+	            });
+			}
+		</script>
+	</body>
+</html>

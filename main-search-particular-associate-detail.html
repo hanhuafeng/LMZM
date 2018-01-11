@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<!--主页-苗圃查询-苗圃信息-数据关联-常规造林苗木详情-->
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes"/>
+		<meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		
+		<style>
+	    	.bg{
+	    		background: green;
+	    	}
+	    	.title{
+    			color: white;
+    		}
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav bg">
+			<a class="mui-action-back mui-icon mui-icon-back mui-pull-left" style="color: white;"></a>
+	    	<h1 class="mui-title title">常规造林苗木详情</h1>
+		</header>
+		
+		<div class="mui-content">
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell">
+                	<a class="mui-table-view-cell">
+                		省&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;份 :
+	                    <span class="mui-table-view-cell" id="province">贵州省</span>
+	                </a>
+	            </li>
+	            <li class="mui-table-view-cell">
+                	<a class="mui-table-view-cell">
+                		市&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;州 :
+	                    <span class="mui-table-view-cell" id="city">贵阳市</span>
+	                </a>
+	            </li>
+	            <li class="mui-table-view-cell">
+                	<a class="mui-table-view-cell">
+                		区&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;县 :
+	                    <span class="mui-table-view-cell" id="county">修文县</span>
+	                </a>
+	            </li>
+	            <li class="mui-table-view-cell">
+                	<a class="mui-table-view-cell">
+                		苗&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;圃 :
+	                    <span class="mui-table-view-cell" id="nursery">小黑林场</span>
+	                </a>
+	            </li>
+	            <li class="mui-table-view-cell">
+                	<a class="mui-table-view-cell">
+                		联&nbsp;&nbsp;系&nbsp;&nbsp;人 :
+	                    <span class="mui-table-view-cell" id="name">小黑</span>
+	                </a>
+	            </li>
+	            <li class="mui-table-view-cell">
+                	<a class="mui-table-view-cell">
+                		联系电话 :
+	                    <span class="mui-table-view-cell" id="phone">12345678910</span>
+	                </a>
+	            </li>
+	            <li class="mui-table-view-cell">
+                	<a class="mui-table-view-cell">
+                		树&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;种 :
+	                    <span class="mui-table-view-cell" id="species">桃树</span>
+	                </a>
+	            </li>
+	            <li class="mui-table-view-cell">
+                	<a class="mui-table-view-cell">
+                		品&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;种 :
+	                    <span class="mui-table-view-cell" id="variety">桃</span>
+	                </a>
+	            </li>
+	            
+	            <li class="mui-table-view-cell mui-collapse">
+	            	<a class="mui-navigate-right" href="#">
+	            		小计（万株） :
+	            		<span class="mui-table-view-cell" id="total">100</span>
+	            	</a>
+            		<ul class="mui-table-view">
+			            <li class="mui-table-view-cell">
+		                	<a class="mui-table-view-cell">
+		                		1&nbsp;&nbsp;年&nbsp;&nbsp;生（万株） :
+			                    <span class="mui-table-view-cell" id="one">10</span>
+			                </a>
+			            </li>
+			            <li class="mui-table-view-cell">
+		                	<a class="mui-table-view-cell">
+		                		2&nbsp;&nbsp;年&nbsp;&nbsp;生（万株） :
+			                    <span class="mui-table-view-cell" id="two">20</span>
+			                </a>
+			            </li>
+			            <li class="mui-table-view-cell">
+		                	<a class="mui-table-view-cell">
+		                		3&nbsp;&nbsp;年&nbsp;&nbsp;生（万株） :
+			                    <span class="mui-table-view-cell" id="three">30</span>
+			                </a>
+			            </li>
+			            <li class="mui-table-view-cell">
+		                	<a class="mui-table-view-cell">
+		                		3年以上（万株） :
+			                    <span class="mui-table-view-cell" id="more">40</span>
+			                </a>
+			            </li>
+			            <li class="mui-table-view-cell">
+		                	<a class="mui-table-view-cell">
+		                		其&nbsp;&nbsp;中
+			                </a>
+			            </li>
+            			<li class="mui-table-view-cell">
+		                	<a class="mui-table-view-cell">
+		                		容&nbsp;&nbsp;器（万株） :
+			                    <span class="mui-table-view-cell" id="container">20</span>
+			                </a>
+			            </li>
+			            <li class="mui-table-view-cell">
+		                	<a class="mui-table-view-cell">
+		                		良&nbsp;&nbsp;种（万株） :
+			                    <span class="mui-table-view-cell" id="seed">30</span>
+			                </a>
+			            </li>
+			            <div class="mui-card"/>
+		            </ul>
+	            </li>
+			</ul>
+		</div>
+		
+		<script src="js/mui.min.js"></script>
+		
+		<script>
+			mui.init();
+			
+			var province = document.getElementById('province').value; // 省份
+			var city = document.getElementById('city').value; // 市州
+			var county = document.getElementById('county').value; // 区县
+			var nursery = document.getElementById('nursery').value; // 苗圃
+			var name = document.getElementById('name').value; // 联系人
+			var phone = document.getElementById('phone').value; // 联系电话
+			var species = document.getElementById('species').value; // 树种
+			var variety = document.getElementById('variety').value; // 品种
+			
+			var total = document.getElementById('total').value; // 小计
+			var one = document.getElementById('one').value; // 1年生
+			var two = document.getElementById('two').value; // 2年生
+			var three = document.getElementById('three').value; // 3年生
+			var more = document.getElementById('more').value; // 3年以上
+			var container = document.getElementById('container').value; // 容器
+			var seed = document.getElementById('seed').value; // 良种
+		</script>
+	</body>
+</html>

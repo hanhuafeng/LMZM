@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<!--个人中心-我的供应-->
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes"/>
+		<meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/mui.picker.css" rel="stylesheet" />
+		<link href="css/mui.poppicker.css" rel="stylesheet" />
+		<link href="css/mui.dtpicker.css" rel="stylesheet" />
+		
+		<style>
+			.bg{
+    			background: green;
+	    	}
+	    	.title{
+	    		color: white;
+	    	}
+	    	.botton {
+	    		background: green;
+	    		color: white;
+	    		border-color: green;
+	    	}
+	    	.mui-poppicker-btn-ok {
+				background: green;
+				border: darkgreen;
+			}
+		</style>
+	</head>
+	
+	<body>
+		<header class="mui-bar mui-bar-nav bg">
+			<a class="mui-action-back mui-icon mui-icon-back mui-pull-left" style="color: white;"></a>
+		    <h1 class="mui-title title">我的供应</h1>
+		</header>
+		
+		<div class="mui-content">
+			<div class="mui-card"></div>
+			<form class="mui-input-group">
+				<div class="mui-input-row">
+					<label>基地名称</label>
+					<input type="text" class="mui-input-clear" placeholder="请输入基地名称" id="name">
+				</div>
+				<!--<div class="mui-input-row" id="area">
+					<label>所属地区</label>
+					<input type="text" class="mui-input-clear" readonly="readonly" placeholder="请选择所属地区" id='areaResult'>
+				</div>-->
+				<div class="mui-input-row">
+					<label>基地地址</label>
+					<input type="text" class="mui-input-clear" placeholder="请输入基地地址" id="address">
+				</div>
+				<div class="mui-input-row">
+					<label>联&nbsp;&nbsp;系&nbsp;&nbsp;人</label>
+					<input type="text" class="mui-input-clear" placeholder="请输入联系人姓名（必填）" id="person">
+				</div>
+				<div class="mui-input-row">
+					<label>联系电话</label>
+					<input type="text" class="mui-input-clear" placeholder="请输入联系电话（必填）" id="phone">
+				</div>
+				<div class="mui-input-row" id="type">
+					<label>苗木种类</label>
+					<input type="text" class="mui-input-clear" readonly="readonly" placeholder="请选择苗木种类" id="typeResult">
+				</div>
+				
+				<div id="seedling">
+					<div class="mui-input-row">
+						<label>树种名称</label>
+						<input type="text" class="mui-input-clear" placeholder="请输入树种名称（必填）" id="assortmentSeedling">
+					</div>
+					<div class="mui-input-row">
+						<label>苗高(cm)</label>
+						<input type="text" class="mui-input-clear" placeholder="请输入苗高" id="high">
+					</div>
+					<div class="mui-input-row" id="diameter">
+						<label>米径(cm)</label>
+						<input type="text" class="mui-input-clear" readonly="readonly" placeholder="请选择苗木胸径" id="diameterResult">
+					</div>
+					<div class="mui-input-row">
+						<label>数量(株)</label>
+						<input type="text" class="mui-input-clear" placeholder="请输入供应数量（必填）" id="numSeedling">
+					</div>
+				</div>
+				
+				<div id="flower">
+					<div class="mui-input-row">
+						<label>树种名称</label>
+						<input type="text" class="mui-input-clear" placeholder="请输入树种名称（必填）" id="assortmentFlower">
+					</div>
+					<div class="mui-input-row">
+						<label>数量(盆)</label>
+						<input type="text" class="mui-input-clear" placeholder="请输入供应数量（必填）" id="numFlower">
+					</div>
+				</div>
+				
+				<div id="lawn">
+					<div class="mui-input-row">
+						<label>树种名称</label>
+						<input type="text" class="mui-input-clear" placeholder="请输入树种名称（必填）" id="assortmentLawn">
+					</div>
+					<div class="mui-input-row">
+						<label>面积(㎡)</label>
+						<input type="text" class="mui-input-clear" placeholder="请输入供应面积（必填）" id="areaLawn">
+					</div>
+				</div>
+				
+				<div id="more">
+					<div class="mui-input-row" id="date">
+						<label>有效期至</label>
+						<input type="text" class="mui-input-clear" readonly="readonly" placeholder="请选择时间" id="dateResult">
+					</div>
+					<div class="mui-input-row">
+						<label>品&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;种</label>
+						<input type="text" class="mui-input-clear" placeholder="请输入品种名称" id="variety">
+					</div>
+					<div class="mui-input-row">
+						<label>价&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;格</label>
+						<input type="text" class="mui-input-clear" placeholder="面议可不填" id="price">
+					</div>
+				</div>
+
+				<div class="mui-button-row">
+					<button type="button" class="mui-btn botton" onclick="return false;" id="yes">发布</button>
+					&nbsp;&nbsp;&nbsp;&nbsp;
+					<button type="button" class="mui-btn mui-action-back" onclick="return false;" id="no">取消</button>
+				</div>
+			</form>
+		</div>
+			
+		<script src="js/mui.min.js"></script>
+		<script src="js/mui.picker.js"></script>
+		<script src="js/mui.poppicker.js"></script>
+		<!--<script src="js/city.data-3.js" type="text/javascript" charset="utf-8"></script>-->
+		<script src="js/mui.dtpicker.js"></script>
+		
+		<script>
+			mui.init();
+			document.getElementById('seedling').classList.add('mui-hidden');
+			document.getElementById('flower').classList.add('mui-hidden');
+			document.getElementById('lawn').classList.add('mui-hidden');
+			document.getElementById('more').classList.add('mui-hidden');
+			
+			mui.plusReady(function() {
+				var self = plus.webview.currentWebview();
+				var content = self.content;
+				document.getElementById('person').value = content[0].REALNAME; //真实姓名
+				document.getElementById('phone').value = content[0].MOBILEPHONENO; //联系电话
+			});
+			
+			(function($, doc) {
+				$.init();
+				$.ready(function() {
+					//所属地区
+					/*var cityPicker3 = new $.PopPicker({
+						layer: 3
+					});
+					cityPicker3.setData(cityData3);
+					var area = doc.getElementById('area');
+					var areaResult = doc.getElementById('areaResult');
+					area.addEventListener('tap', function(event) {
+						cityPicker3.show(function(items) {
+							areaResult.value = (items[0] || {}).text + " /" + (items[1] || {}).text + " /" + (items[2] || {}).text;
+							//返回 false 可以阻止选择框的关闭
+							//return false;
+						});
+					}, false);*/
+					
+					/**
+					 * 苗木种类
+					 */
+					var userPicker = new $.PopPicker();
+					userPicker.setData([{
+						value: 'seedling',
+						text: '苗木'
+					}, {
+						value: 'flower',
+						text: '花卉'
+					}, {
+						value: 'lawn',
+						text: '草坪'
+					}]);
+					var type = doc.getElementById('type');
+					var typeResult = doc.getElementById('typeResult');
+					type.addEventListener('tap', function(event) {
+						userPicker.show(function(items) {
+							typeResult.value = items[0].text;
+							
+							switch (items[0].text) {
+								case '苗木':
+									document.getElementById('seedling').classList.remove('mui-hidden');
+									document.getElementById('flower').classList.add('mui-hidden');
+									document.getElementById('lawn').classList.add('mui-hidden');
+									document.getElementById('more').classList.remove('mui-hidden');
+									break;
+								case '花卉':
+									document.getElementById('seedling').classList.add('mui-hidden');
+									document.getElementById('flower').classList.remove('mui-hidden');
+									document.getElementById('lawn').classList.add('mui-hidden');
+									document.getElementById('more').classList.remove('mui-hidden');
+									break;
+								case '草坪':
+									document.getElementById('seedling').classList.add('mui-hidden');
+									document.getElementById('flower').classList.add('mui-hidden');
+									document.getElementById('lawn').classList.remove('mui-hidden');
+									document.getElementById('more').classList.remove('mui-hidden');
+									break;
+							}
+						});
+					}, false);
+					
+					/**
+					 * 苗木胸径
+					 */
+					var diameterPicker = new $.PopPicker();
+					diameterPicker.setData([{
+						value: '1cm',
+						text: '小于2cm'
+					}, {
+						value: '4cm',
+						text: '2-6cm'
+					}, {
+						value: '7cm',
+						text: '6-8cm'
+					}, {
+						value: '10cm',
+						text: '8-12cm'
+					}, {
+						value: '13cm',
+						text: '12-15cm'
+					}, {
+						value: '17cm',
+						text: '15-18cm'
+					}, {
+						value: '19cm',
+						text: '大于18cm'
+					}]);
+					var diameter = doc.getElementById('diameter');
+					var diameterResult = doc.getElementById('diameterResult');
+					diameter.addEventListener('tap', function(event) {
+						diameterPicker.show(function(items) {
+							diameterResult.value = items[0].text;
+						});
+					}, false);
+					
+					/**
+					 * 有效日期
+					 */
+					var options = JSON.parse('{"type":"date"}');
+					var picker = new $.DtPicker(options);
+					var date = doc.getElementById('date');
+					var dateResult = doc.getElementById('dateResult');
+					date.addEventListener('tap', function(event) {
+						picker.show(function(items) {
+							dateResult.value = items.text;
+							//返回 false 可以阻止选择框的关闭
+							//return false;
+						});
+					}, false);
+					
+				});
+			})(mui, document);
+			
+			/**
+			 * 发布
+			 */
+			document.getElementById("yes").addEventListener('tap', function() {
+				var name = document.getElementById('name').value;//基地名称
+				var address = document.getElementById('address').value;//基地地址
+				var person = document.getElementById('person').value;//联系人姓名（必填）
+				var phone = document.getElementById('phone').value;//联系电话（必填）
+				var typeResult = document.getElementById('typeResult').value;//苗木种类
+				
+				//seedling 苗木
+				var assortmentSeedling = document.getElementById('assortmentSeedling').value;//树种名称
+				var high = document.getElementById('high').value;//苗高
+				var diameterResult = document.getElementById('diameterResult').value;//苗木胸径
+				var numSeedling = document.getElementById('numSeedling').value;//供应数量（必填）
+				//flower 花卉
+				var assortmentFlower = document.getElementById('assortmentFlower').value;//树种名称
+				var numFlower = document.getElementById('numFlower').value;//供应数量（必填）
+				//lawn 草坪
+				var assortmentLawn = document.getElementById('assortmentLawn').value;//树种名称
+				var areaLawn = document.getElementById('areaLawn').value;//供应面积（必填）
+				
+				//more
+				var dateResult = document.getElementById('dateResult').value;//时间
+				var variety = document.getElementById('variety').value;//品种名称
+				var price = document.getElementById('price').value;//价格
+				
+				//seedling 苗木
+				var seedlingValue = {
+					name: name,
+					address: address,
+					person: person,
+					phone: phone,
+					typeResult: typeResult,
+					
+					assortmentSeedling: assortmentSeedling,
+					high: high,
+					diameterResult: diameterResult,
+					numSeedling: numSeedling,
+					
+					dateResult: dateResult,
+					variety: variety,
+					price: price
+				}
+				//flower 花卉
+				var flowerValue = {
+					name: name,
+					address: address,
+					person: person,
+					phone: phone,
+					typeResult: typeResult,
+					
+					assortmentFlower: assortmentFlower,
+					numFlower: numFlower,
+					
+					dateResult: dateResult,
+					variety: variety,
+					price: price
+				}
+				//lawn 草坪
+				var lawnValue = {
+					name: name,
+					address: address,
+					person: person,
+					phone: phone,
+					typeResult: typeResult,
+					
+					assortmentLawn: assortmentLawn,
+					areaLawn: areaLawn,
+					
+					dateResult: dateResult,
+					variety: variety,
+					price: price
+				}
+				
+				if (typeResult == '') {
+					mui.toast('请选择苗木种类')
+				} else {
+					switch (typeResult) {
+						case '苗木':
+							empty(seedlingValue);
+							break;
+						case '花卉':
+							empty(flowerValue);
+							break;
+						case '草坪':
+							empty(lawnValue);
+							break;
+					}
+				}
+			});
+			document.getElementById("no").addEventListener("tap", function() {
+				mui.toast("取消");
+			});
+			/**
+			 * 输入框内容判断
+			 */
+			function empty(value) {
+				switch (value.typeResult) {
+					case '苗木':
+						if(!value.assortmentSeedling || value.assortmentSeedling == '') {
+							mui.toast('请输入树种名称')
+							return;
+						} else if(!value.numSeedling || value.numSeedling == '') {
+							mui.toast('请输入供应数量')
+							return;
+						} else {
+							dataSend(value);
+						}
+						break;
+					case '花卉':
+						if(!value.assortmentFlower || value.assortmentFlower == '') {
+							mui.toast('请输入树种名称')
+							return;
+						} else if(!value.numFlower || value.numFlower == '') {
+							mui.toast('请输入供应数量')
+							return;
+						} else {
+							dataSend(value);
+						}
+						break;
+					case '草坪':
+						if(!value.assortmentLawn || value.assortmentLawn == '') {
+							mui.toast('请输入树种名称')
+							return;
+						} else if(!value.areaLawn || value.areaLawn == '') {
+							mui.toast('请输入供应面积')
+							return;
+						} else {
+							dataSend(value);
+						}
+						break;
+				}
+			}
+			/**
+			 * 数据上报
+			 */
+			function dataSend(value) {
+				/**
+				 * 网络判断
+				 */
+				var network = true;
+				if(mui.os.plus) {
+					mui.plusReady(function() {
+						if(plus.networkinfo.getCurrentType() == plus.networkinfo.CONNECTION_NONE) {
+							network = false;
+						}
+					});
+				}
+				
+				switch (value.typeResult) {
+					case '苗木':
+						var sendValue = {
+							mpname: value.name,
+							address: value.address,
+							lxr: value.person,
+							phone: value.phone,
+							
+							lx: 1,
+							
+							pz: value.variety,
+							
+							sz: value.assortmentSeedling,
+							
+							mm_mg : value.high,
+							mm_mj : value.diameterResult,
+							mm_sl : value.numSeedling,
+							mm_jg : value.price,
+							
+							hh_sl: '',
+							hh_jg: '',
+							
+							cp_mj: '',
+							cp_jg: '',
+							
+							yxq: value.dateResult
+						}
+						break;
+					case '花卉':
+						var sendValue = {
+							mpname: value.name,
+							address: value.address,
+							lxr: value.person,
+							phone: value.phone,
+							
+							lx: 2,
+							
+							pz: value.variety,
+							
+							sz: value.assortmentFlower,
+							
+							mm_mg : '',
+							mm_mj : '',
+							mm_sl : '',
+							mm_jg : '',
+							
+							hh_sl: value.numFlower,
+							hh_jg: value.price,
+							
+							cp_mj: '',
+							cp_jg: '',
+							
+							yxq: value.dateResult
+						}
+						break;
+					case '草坪':
+						var sendValue = {
+							mpname: value.name,
+							address: value.address,
+							lxr: value.person,
+							phone: value.phone,
+							
+							lx: 3,
+							
+							pz: value.variety,
+							
+							sz: value.assortmentLawn,
+							
+							mm_mg : '',
+							mm_mj : '',
+							mm_sl : '',
+							mm_jg : '',
+							
+							hh_sl: '',
+							hh_jg: '',
+							
+							cp_mj: value.areaLawn,
+							cp_jg: value.price,
+							
+							yxq: value.dateResult
+						}
+						break;
+				}
+				send(sendValue);
+			}
+			function send(sendValue) {
+				var url = 'http://101.201.54.143:8049/WebService/WebServiceforzm.asmx/AddSupplyData';
+				mui.ajax(url, {
+					data: {
+						mpname: sendValue.mpname,
+						address: sendValue.address,
+						lxr: sendValue.lxr,
+						phone: sendValue.phone,
+						
+						lx: sendValue.lx,
+						
+						pz: sendValue.pz,
+						
+						sz: sendValue.sz,
+						
+						mm_mg : sendValue.mm_mg,
+						mm_mj : sendValue.mm_mj,
+						mm_sl : sendValue.mm_sl,
+						mm_jg : sendValue.mm_jg,
+						
+						hh_sl: sendValue.hh_sl,
+						hh_jg: sendValue.hh_jg,
+						
+						cp_mj: sendValue.cp_mj,
+						cp_jg: sendValue.cp_jg,
+						
+						yxq: sendValue.yxq
+					},
+					dataType: 'json',
+					type: 'post',
+					timeout: '10000',
+					success: function(data) {
+						if (data.KEY == '1') {
+							mui.toast('发布成功');
+							mui.back();
+						} else {
+							mui.toast('发布失败')
+						}
+					},
+					error:function(xhr, type, errorThrown) {
+						//异常处理；
+						mui.toast('网络请求超时');
+					}
+				})
+			}
+		</script>
+	</body>
+</html>

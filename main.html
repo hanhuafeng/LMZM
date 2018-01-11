@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<!--主页-->
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes"/>
+		<meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<style>
+			.bg {
+				color: white;
+				opacity: 0.7;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="mui-content">
+			<div id="slider" class="mui-slider">
+				<div class="mui-slider-group mui-slider-loop">
+					<!--下面代码去掉不能循环轮播-->
+					<div class="mui-slider-item mui-slider-item-duplicate">
+						<a href="#">
+							<img src="img/slider/mp4.jpg" height="280">
+							<p class="mui-slider-title bg">水仙场</p>
+						</a>
+					</div>
+					<div class="mui-slider-item">
+						<a href="#">
+							<img src="img/slider/mp1.jpg" height="280">
+							<p class="mui-slider-title bg">生态种植</p>
+						</a>
+					</div>
+					<div class="mui-slider-item">
+						<a href="#">
+							<img src="img/slider/mp2.jpg" height="280">
+							<p class="mui-slider-title bg">一品红</p>
+						</a>
+					</div>
+					<div class="mui-slider-item">
+						<a href="#">
+							<img src="img/slider/mp3.jpg" height="280">
+							<p class="mui-slider-title bg">苗圃基地</p>
+						</a>
+					</div>
+					<div class="mui-slider-item">
+						<a href="#">
+							<img src="img/slider/mp4.jpg" height="280">
+							<p class="mui-slider-title bg">水仙场 </p>
+						</a>
+					</div>
+					<!--<div class="mui-slider-item">
+						<a href="#">
+							<img src="img/slider/example5.jpg" height="280">
+							<p class="mui-slider-title bg">图片5</p>
+						</a>
+					</div>-->
+					<!--下面代码去掉不能循环轮播-->
+					<div class="mui-slider-item mui-slider-item-duplicate">
+						<a href="#">
+							<img src="img/slider/mp1.jpg" height="280"> 
+							<p class="mui-slider-title bg">生态种植</p>
+						</a>
+					</div>
+				</div>
+				<div class="mui-slider-indicator mui-text-right">
+					<div class="mui-indicator mui-active"></div>
+					<div class="mui-indicator"></div>
+					<div class="mui-indicator"></div>
+					<div class="mui-indicator"></div>
+				</div>
+			</div>
+		</div>
+		
+		<div id="nineGride">
+			<ul class="mui-table-view mui-grid-view mui-grid-9">
+    			<li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-3" data-page='page1'>
+        			<a href="#">
+            			<span class="mui-icon mui-icon-home"></span>
+            			<div class="mui-media-body">供应信息</div>
+       				</a>
+    			</li>
+    			<li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-3" data-page='page2'>
+        			<a href="#">
+            			<span class="mui-icon mui-icon-email"></span>
+            			<div class="mui-media-body">求购信息</div>
+       				</a>
+    			</li>
+    			<li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-3" data-page='page3'>
+        			<a href="#">
+            			<span class="mui-icon mui-icon-search"></span>
+            			<div class="mui-media-body">苗圃查询</div>
+        			</a>
+    			</li>
+    			<li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-3" data-page='page4'>
+        			<a href="#">
+            			<span class="mui-icon mui-icon-map"></span>
+            			<div class="mui-media-body">苗圃地图</div>
+        			</a>
+    			</li>
+			</ul>
+		</div>
+		
+		<script src="js/mui.min.js"></script>
+		
+		<script>
+			var gallery = mui('.mui-slider');  
+			gallery.slider({
+				//图片滑动时间间隔
+  				interval:3000
+			});
+			
+			/*// 页面预加载
+			var subWebview = mui.preload({
+			    url: 'main-search.html'
+			});*/
+			
+			mui('#nineGride').on('tap', '.mui-table-view-cell', function() {
+				var page = this.dataset.page;
+				//alert(page);
+				if (page == 'page1') {
+					mui.openWindow({
+						//id: page,
+						url: 'main-supply.html'
+					});
+				} else if (page == 'page2') {
+					mui.openWindow({
+						id: page,
+						url: 'main-looking.html'
+					});
+				} else if (page == 'page3') {
+					mui.openWindow({
+						id: page,
+						url: 'main-search.html'
+//						url: 'laws.html'
+					});
+				} else {
+					mui.openWindow({
+						id: page,
+						url: 'main-map.html'
+//						url: 'myLaw.html'
+					})
+				}
+			});
+		</script>
+	</body>
+</html>
